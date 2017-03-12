@@ -1,6 +1,7 @@
 package br.edu.ufcg.computacao.si1.controller;
 
 import br.edu.ufcg.computacao.si1.model.Anuncio;
+import br.edu.ufcg.computacao.si1.model.Anuncio.AnuncioBuilder;
 import br.edu.ufcg.computacao.si1.model.form.AnuncioForm;
 import br.edu.ufcg.computacao.si1.service.AnuncioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +47,11 @@ public class CompanyAnuncioController {
             return getPageCadastarAnuncio(anuncioForm);
         }
 
-        Anuncio anuncio = new Anuncio();
-        anuncio.setTitulo(anuncioForm.getTitulo());
-        anuncio.setPreco(anuncioForm.getPreco());
-        anuncio.setTipo(anuncioForm.getTipo());
+        String titulo = anuncioForm.getTitulo();
+        double preco = anuncioForm.getPreco();
+        String tipo = anuncioForm.getTipo();
+
+        Anuncio anuncio = new AnuncioBuilder(titulo,preco,tipo).build();
 
         anuncioService.create(anuncio);
 
