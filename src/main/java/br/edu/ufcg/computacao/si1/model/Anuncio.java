@@ -140,13 +140,8 @@ public class Anuncio {
 
     @Override
     public String toString() {
-        return "Anuncio{" +
-                "_id=" + _id +
-                ", titulo='" + titulo + '\'' +
-                ", dataDeCriacao=" + getDataDeCriacao() +
-                ", preco=" + preco +
-                ", nota=" + nota +
-                ", tipo='" + tipo + '\'' +
-                '}';
+        String textoAnuncio = String.format("Anuncio{_id=%d, titulo=%s, dataDeCriacao=%s," +
+                " preco=%2f, nota=%s, tipo=%s}", _id, titulo, getDataDeCriacao(), preco, nota, tipo);
+        return textoAnuncio;
     }
 }
