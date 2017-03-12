@@ -43,7 +43,7 @@ public class Anuncio {
 		this.nota = nota;
 		this.tipo = tipo;
 	}
-	
+
 	private Anuncio(AnuncioBuilder builder) {
 		this.titulo = builder.titulo;
 		this.dataDeCriacao = builder.dataDeCriacao;
@@ -51,12 +51,12 @@ public class Anuncio {
 		this.nota = builder.nota;
 		this.tipo = builder.tipo;
 	}
-	
+
 	/**
 	 * Requerimento do JPA
 	 */
-	Anuncio(){
-		
+	Anuncio() {
+
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class Anuncio {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	
+
 	public static class AnuncioBuilder {
 		@Id
 		@GeneratedValue(strategy = GenerationType.AUTO)
@@ -139,27 +139,27 @@ public class Anuncio {
 		@Column(name = "tipo", nullable = false)
 		private String tipo;
 
-	    public AnuncioBuilder(String titulo, double preco, String tipo) {
-	      this.titulo = titulo;
-	      this.preco = preco;
-	      this.tipo = tipo;
-	    }
+		public AnuncioBuilder(String titulo, double preco, String tipo) {
+			this.titulo = titulo;
+			this.preco = preco;
+			this.tipo = tipo;
+		}
 
-	    public AnuncioBuilder nota(String  nota) {
-	      this.nota = nota;
-	      return this;
-	    }
+		public AnuncioBuilder nota(String nota) {
+			this.nota = nota;
+			return this;
+		}
 
-	    public AnuncioBuilder dataDeCriacao(Date dataDeCriacao) {
-	      this.dataDeCriacao = dataDeCriacao;
-	      return this;
-	    }
+		public AnuncioBuilder dataDeCriacao(Date dataDeCriacao) {
+			this.dataDeCriacao = dataDeCriacao;
+			return this;
+		}
 
-	    public Anuncio build() {
-	      return new Anuncio(this);
-	    }
+		public Anuncio build() {
+			return new Anuncio(this);
+		}
 
-	  }
+	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -200,7 +200,17 @@ public class Anuncio {
 
 	@Override
 	public String toString() {
-		return "Anuncio{" + "_id=" + _id + ", titulo='" + titulo + '\'' + ", dataDeCriacao=" + getDataDeCriacao()
-				+ ", preco=" + preco + ", nota=" + nota + ", tipo='" + tipo + '\'' + '}';
+
+		String infoAnuncio = "";
+
+		infoAnuncio += String.format("Anuncio{_id=%d, ", _id);
+		infoAnuncio += String.format("titulo=%s, ", titulo);
+		infoAnuncio += String.format("dataDeCriacao=%s, ", getDataDeCriacao());
+		infoAnuncio += String.format("preco=%.2f, ", preco);
+		infoAnuncio += String.format("nota=%s, ", nota);
+		infoAnuncio += String.format("tipo=%s}", tipo);
+
+		return infoAnuncio;
 	}
+
 }
