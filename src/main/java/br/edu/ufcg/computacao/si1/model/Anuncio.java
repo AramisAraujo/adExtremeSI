@@ -31,12 +31,12 @@ public class Anuncio {
 	private double preco;
 
 	@Column(name = "nota")
-	private String nota;
+	private Notas nota;
 
 	@Column(name = "tipo", nullable = false)
 	private String tipo;
 
-	public Anuncio(String titulo, Date dataDeCriacao, double preco, String nota, String tipo) {
+	public Anuncio(String titulo, Date dataDeCriacao, double preco, Notas nota, String tipo) {
 		this.titulo = titulo;
 		this.dataDeCriacao = dataDeCriacao;
 		this.preco = preco;
@@ -102,11 +102,11 @@ public class Anuncio {
 		this.preco = preco;
 	}
 
-	public String getNota() {
+	public Notas getNota() {
 		return nota;
 	}
 
-	public void setNota(String nota) {
+	public void setNota(Notas nota) {
 		this.nota = nota;
 	}
 
@@ -134,7 +134,7 @@ public class Anuncio {
 		private double preco;
 
 		@Column(name = "nota")
-		private String nota = "";
+		private Notas nota = Notas.ESTRELA0;
 
 		@Column(name = "tipo", nullable = false)
 		private String tipo;
@@ -145,7 +145,7 @@ public class Anuncio {
 			this.tipo = tipo;
 		}
 
-		public AnuncioBuilder nota(String nota) {
+		public AnuncioBuilder nota(Notas nota) {
 			this.nota = nota;
 			return this;
 		}
