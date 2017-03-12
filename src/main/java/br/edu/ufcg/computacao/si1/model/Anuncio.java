@@ -143,10 +143,12 @@ public class Anuncio {
         String infoAnuncio = "";
         infoAnuncio += String.format("Anuncio{_id=%d, ", _id);
         infoAnuncio += String.format("titulo=%s, ", titulo);
-        infoAnuncio += String.format("dataDeCriacao=%s, ", getDataDeCriacao();
+        infoAnuncio += String.format("dataDeCriacao=%s, ", getDataDeCriacao());
         infoAnuncio += String.format("preco=%.2f, ", preco);
         infoAnuncio += String.format("nota=%s, ", nota);
         infoAnuncio += String.format("tipo=%s}", tipo);
         return infoAnuncio;
     }
+
+
 }
