@@ -22,7 +22,7 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
     private RazaoSocial role;
 
     public Usuario() {
-        super("default", "default", AuthorityUtils.createAuthorityList("USER"));
+        super("default", "default", AuthorityUtils.createAuthorityList(RazaoSocial.USER.toString()));
     }
 
     public Usuario(String nome, String email, String senha, RazaoSocial role) {
