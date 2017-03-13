@@ -12,10 +12,10 @@ public class AnuncioForm {
     private static final String[] tipos = new String[] {"movel", "imovel", "emprego"};
 
     @NotNull(message = "O titulo não pode ser nulo.")
-    @NotEmpty(message = "O titulo não pode esta vazio.")
-    @Size(min = 10, max = 100, message = "O titulo deve ter entre 2 e 100 caracters")
+    @NotEmpty(message = "O titulo não pode estar vazio.")
+    @Size(min = 2, max = 100, message = "O titulo deve ter entre 2 e 100 caracteres.")
     private String titulo;
-    @NotNull(message = "O preçço não pode ser nulo.")
+    @NotNull(message = "O preço não pode ser nulo.")
     @DecimalMin(value = "0.1", message = "O preço minimo é 0.1 para um anúncio.")
     private Double preco;
     @NotNull(message = "O tipo de anúncio não pode ser nulo.")
