@@ -13,14 +13,15 @@ import java.util.LinkedList;
 public class Usuario extends org.springframework.security.core.userdetails.User{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false, unique = true)
     private Long id;
-    @Column
+    @Column(nullable = false)
     private String nome;
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
-    @Column
+    @Column(nullable = false)
     private String senha;
-    @Column
+    @Column(nullable = false)
     private String role;
 
     public Usuario() {
