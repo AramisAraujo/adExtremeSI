@@ -11,7 +11,7 @@ import java.util.Date;
 @Entity
 @Table(name = "tb_anuncio")
 public class Anuncio {
-
+  
 	private static final String[] tipos = new String[] { "movel", "imovel", "emprego" };
 
 	private final static DateFormat DATE_FORMAT = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
@@ -30,7 +30,8 @@ public class Anuncio {
 	@Column(name = "preco", nullable = false)
 	private double preco;
 
-	@Column(name = "nota")
+
+  @Column(name = "nota")
 	private Notas nota;
 
 	@Column(name = "tipo", nullable = false)
