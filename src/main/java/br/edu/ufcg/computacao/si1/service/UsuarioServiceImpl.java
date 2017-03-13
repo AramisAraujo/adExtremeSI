@@ -1,5 +1,6 @@
 package br.edu.ufcg.computacao.si1.service;
 
+import br.edu.ufcg.computacao.si1.model.RazaoSocial;
 import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.model.form.UsuarioForm;
 import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
@@ -27,14 +28,14 @@ public class UsuarioServiceImpl implements UsuarioService{
         switch (usuarioForm.getRole()){
             case 1:
                 usuario = new Usuario(usuarioForm.getNome(), usuarioForm.getEmail(),
-                        usuarioForm.getSenha(), "USER");
+                        usuarioForm.getSenha(), RazaoSocial.USER);
                 break;
             case 2:
                 usuario = new Usuario(usuarioForm.getNome(), usuarioForm.getEmail(),
-                        usuarioForm.getSenha(), "COMPANY");
+                        usuarioForm.getSenha(), RazaoSocial.COMPANY);
 
                 //new BCryptPasswordEncoder().encode(usuarioForm.getSenha()), "COMPANY");
-                usuario.setRole("COMPANY");
+                usuario.setRole(RazaoSocial.COMPANY);
                 break;
         }
 
