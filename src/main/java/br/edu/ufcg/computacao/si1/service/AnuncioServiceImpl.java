@@ -61,7 +61,7 @@ public class AnuncioServiceImpl implements AnuncioService {
     @Override
     public boolean update(Anuncio anuncio) {
         /*a atualizacao do anuncio eh feita apenas se o anuncio ja existir*/
-        if (anuncioRepository.exists(anuncio.get_id())) {
+        if (anuncioRepository.exists(anuncio.getId())) {
             anuncioRepository.save(anuncio);
             return true;
         }
