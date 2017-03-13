@@ -75,4 +75,36 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
         this.role = role;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Usuario)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        Usuario usuario = (Usuario) o;
+
+        if (id != null ? !id.equals(usuario.id) : usuario.id != null) {
+            return false;
+        }
+        if (email != null ? !email.equals(usuario.email) : usuario.email != null) {
+            return false;
+        }
+        return role != null ? role.equals(usuario.role) : usuario.role == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        return result;
+    }
+
 }

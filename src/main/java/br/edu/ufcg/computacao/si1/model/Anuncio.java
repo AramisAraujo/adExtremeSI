@@ -160,55 +160,48 @@ public class Anuncio {
 
     }
 
+
+
+
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof Anuncio))
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Anuncio anuncio = (Anuncio) o;
 
-        if (Double.compare(anuncio.getPreco(), getPreco()) != 0)
+        if (Double.compare(anuncio.preco, preco) != 0) {
             return false;
-        if (!getId().equals(anuncio.getId()))
-            return false;
-        if (!getTitulo().equals(anuncio.getTitulo()))
-            return false;
-        if (!getDataDeCriacao().equals(anuncio.getDataDeCriacao()))
-            return false;
-        if (getNota() != null ? !getNota().equals(anuncio.getNota()) : anuncio.getNota() != null)
-            return false;
-        return getTipo().equals(anuncio.getTipo());
+        }
+        if (id != null ? !id.equals(anuncio.id) : anuncio.id != null) {
 
+            return false;
+        }
+        if (titulo != null ? !titulo.equals(anuncio.titulo) : anuncio.titulo != null) {
+            return false;
+        }
+        if (dataDeCriacao != null ? !dataDeCriacao.equals(anuncio.dataDeCriacao) : anuncio.dataDeCriacao != null) {
+            return false;
+        }
+        if (nota != anuncio.nota) {
+            return false;
+        }
+        return tipo != null ? tipo.equals(anuncio.tipo) : anuncio.tipo == null;
     }
 
     @Override
     public int hashCode() {
         int result;
         long temp;
-        result = getId().hashCode();
-        result = 31 * result + getTitulo().hashCode();
-        result = 31 * result + getDataDeCriacao().hashCode();
-        temp = Double.doubleToLongBits(getPreco());
+
+        result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (titulo != null ? titulo.hashCode() : 0);
+        result = 31 * result + (dataDeCriacao != null ? dataDeCriacao.hashCode() : 0);
+        temp = Double.doubleToLongBits(preco);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (getNota() != null ? getNota().hashCode() : 0);
-        result = 31 * result + getTipo().hashCode();
+        result = 31 * result + (nota != null ? nota.hashCode() : 0);
+        result = 31 * result + (tipo != null ? tipo.hashCode() : 0);
         return result;
     }
-
-    @Override
-    public String toString() {
-
-        String infoAnuncio = "";
-
-        infoAnuncio += String.format("Anuncio{_id=%d, ", id);
-        infoAnuncio += String.format("titulo=%s, ", titulo);
-        infoAnuncio += String.format("dataDeCriacao=%s, ", getDataDeCriacao());
-        infoAnuncio += String.format("preco=%.2f, ", preco);
-        infoAnuncio += String.format("nota=%s, ", nota);
-        infoAnuncio += String.format("tipo=%s}", tipo);
-
-        return infoAnuncio;
-    }
 }
+
