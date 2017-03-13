@@ -1,16 +1,13 @@
 package br.edu.ufcg.computacao.si1.model;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.LinkedList;
 
 @Entity(name = "Usuario")
 @Table(name = "tb_usuario")
 public class Usuario extends org.springframework.security.core.userdetails.User{
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, unique = true)
@@ -22,15 +19,15 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
     @Column(nullable = false)
     private String senha;
     @Column(nullable = false)
-    private String role;
+    private RazaoSocial role;
 
     public Usuario() {
         super("default", "default", AuthorityUtils.createAuthorityList("USER"));
     }
 
-    public Usuario(String nome, String email, String senha, String role) {
+    public Usuario(String nome, String email, String senha, RazaoSocial role) {
 
-        super(email, senha, AuthorityUtils.createAuthorityList(role));
+        super(email, senha, AuthorityUtils.createAuthorityList(role.toString()));
 
         this.nome = nome;
         this.email = email;
@@ -70,11 +67,11 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
         this.senha = senha;
     }
 
-    public String getRole() {
+    public RazaoSocial getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(RazaoSocial role) {
         this.role = role;
     }
 
