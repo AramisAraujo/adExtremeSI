@@ -1,5 +1,6 @@
 package br.edu.ufcg.computacao.si1.config;
 
+import br.edu.ufcg.computacao.si1.model.RazaoSocial;
 import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         http
             .authorizeRequests()
                     .antMatchers("/","/cadastrar-se").permitAll()
-                    .antMatchers("/user/**").hasAuthority("USER")
-                    .antMatchers("/company/**").hasAuthority("COMPANY")
+                    .antMatchers("/user/**").hasAuthority(RazaoSocial.USER.toString())
+                    .antMatchers("/company/**").hasAuthority(RazaoSocial.COMPANY.toString())
                     .anyRequest().fullyAuthenticated()
                 .and()
             .formLogin()
@@ -88,7 +89,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
                 Usuario usuario = usuarioService.getByEmail(email).get();
                 if(usuario != null){
                     return new User(usuario.getEmail(), usuario.getSenha(), true, true, true, true,
-                            AuthorityUtils.createAuthorityList(usuario.getRole().getValor()));
+                            AuthorityUtils.createAuthorityList(usuario.getRole().toString()));
                 }else {
                     throw new UsernameNotFoundException("Não foi possível localizar o usuário" + usuario);
                 }
