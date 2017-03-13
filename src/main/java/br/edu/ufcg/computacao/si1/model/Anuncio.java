@@ -9,16 +9,15 @@ import java.util.Date;
  * Created by Marcus Oliveira on 08/12/16.
  */
 @Entity
-@Table(name="tb_anuncio")
+@Table(name = "tb_anuncio")
 public class Anuncio {
 
-    private static final String[] tipos = new String[] {"movel", "imovel", "emprego"};
-
+    private static final String[] tipos = new String[]{"movel", "imovel", "emprego"};
 
     private final static DateFormat DATE_FORMAT = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "_id", nullable = false, unique = true)
     private Long _id;
 
@@ -32,12 +31,12 @@ public class Anuncio {
     private double preco;
 
     @Column(name = "nota")
-    private String nota;
+    private Notas nota;
 
     @Column(name = "tipo", nullable = false)
     private String tipo;
 
-    public Anuncio(String titulo, Date dataDeCriacao, double preco, String nota, String tipo) {
+    public Anuncio(String titulo, Date dataDeCriacao, double preco, Notas nota, String tipo) {
         this.titulo = titulo;
         this.dataDeCriacao = dataDeCriacao;
         this.preco = preco;
@@ -45,16 +44,24 @@ public class Anuncio {
         this.tipo = tipo;
     }
 
-    public Anuncio() {
-        titulo = "";
-        dataDeCriacao = new Date();
-        preco = 0;
-        nota = "";
-        tipo = "";
+    private Anuncio(AnuncioBuilder builder) {
+        this.titulo = builder.titulo;
+        this.dataDeCriacao = builder.dataDeCriacao;
+        this.preco = builder.preco;
+        this.nota = builder.nota;
+        this.tipo = builder.tipo;
+    }
+
+    /**
+     * Requerimento do JPA
+     */
+    Anuncio() {
+
     }
 
     /**
      * Retorna o id do anuncio
+     *
      * @return o id do anuncio
      */
     public Long get_id() {
@@ -63,8 +70,10 @@ public class Anuncio {
 
     /**
      * Modifica o id do anuncio
+     *
      * @param _id id a ser colocado no anuncio
-     */public void set_id(Long _id) {
+     */
+    public void set_id(Long _id) {
         this._id = _id;
     }
 
@@ -92,11 +101,11 @@ public class Anuncio {
         this.preco = preco;
     }
 
-    public String getNota() {
+    public Notas getNota() {
         return nota;
     }
 
-    public void setNota(String nota) {
+    public void setNota(Notas nota) {
         this.nota = nota;
     }
 
@@ -108,18 +117,68 @@ public class Anuncio {
         this.tipo = tipo;
     }
 
+    public static class AnuncioBuilder {
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        @Column(name = "_id", nullable = false, unique = true)
+        private Long _id;
+
+        @Column(name = "titulo", nullable = false)
+        private String titulo;
+
+        @Column(name = "data_criacao", nullable = false)
+        private Date dataDeCriacao = new Date();
+
+        @Column(name = "preco", nullable = false)
+        private double preco;
+
+        @Column(name = "nota")
+        private Notas nota = Notas.ESTRELA0;
+
+        @Column(name = "tipo", nullable = false)
+        private String tipo;
+
+        public AnuncioBuilder(String titulo, double preco, String tipo) {
+            this.titulo = titulo;
+            this.preco = preco;
+            this.tipo = tipo;
+        }
+
+        public AnuncioBuilder nota(Notas nota) {
+            this.nota = nota;
+            return this;
+        }
+
+        public AnuncioBuilder dataDeCriacao(Date dataDeCriacao) {
+            this.dataDeCriacao = dataDeCriacao;
+            return this;
+        }
+
+        public Anuncio build() {
+            return new Anuncio(this);
+        }
+
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Anuncio)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof Anuncio))
+            return false;
 
         Anuncio anuncio = (Anuncio) o;
 
-        if (Double.compare(anuncio.getPreco(), getPreco()) != 0) return false;
-        if (!get_id().equals(anuncio.get_id())) return false;
-        if (!getTitulo().equals(anuncio.getTitulo())) return false;
-        if (!getDataDeCriacao().equals(anuncio.getDataDeCriacao())) return false;
-        if (getNota() != null ? !getNota().equals(anuncio.getNota()) : anuncio.getNota() != null) return false;
+        if (Double.compare(anuncio.getPreco(), getPreco()) != 0)
+            return false;
+        if (!get_id().equals(anuncio.get_id()))
+            return false;
+        if (!getTitulo().equals(anuncio.getTitulo()))
+            return false;
+        if (!getDataDeCriacao().equals(anuncio.getDataDeCriacao()))
+            return false;
+        if (getNota() != null ? !getNota().equals(anuncio.getNota()) : anuncio.getNota() != null)
+            return false;
         return getTipo().equals(anuncio.getTipo());
 
     }
@@ -140,15 +199,16 @@ public class Anuncio {
 
     @Override
     public String toString() {
+
         String infoAnuncio = "";
+
         infoAnuncio += String.format("Anuncio{_id=%d, ", _id);
         infoAnuncio += String.format("titulo=%s, ", titulo);
         infoAnuncio += String.format("dataDeCriacao=%s, ", getDataDeCriacao());
         infoAnuncio += String.format("preco=%.2f, ", preco);
         infoAnuncio += String.format("nota=%s, ", nota);
         infoAnuncio += String.format("tipo=%s}", tipo);
+
         return infoAnuncio;
     }
-
-
 }
