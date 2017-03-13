@@ -45,12 +45,12 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
         this.id = id;
     }
 
-    public String getN() {
+    public String getNome() {
         return nome;
     }
 
-    public void setN(String n) {
-        this.nome = n;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {
@@ -69,12 +69,12 @@ public class Usuario extends org.springframework.security.core.userdetails.User{
         this.senha = senha;
     }
 
-    public String getR() {
+    public String getRole() {
         return role;
     }
 
-    public void setR(String r) {
-        this.role = r;
+    public void setRole(String role) {
+        this.role = role;
     }
 
 }
