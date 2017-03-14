@@ -2,16 +2,26 @@ package br.edu.ufcg.computacao.si1.controller;
 
 import br.edu.ufcg.computacao.si1.model.Anuncio;
 import br.edu.ufcg.computacao.si1.model.Anuncio.AnuncioBuilder;
+import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.model.form.AnuncioForm;
 import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
+import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
 import br.edu.ufcg.computacao.si1.service.AnuncioServiceImpl;
+import br.edu.ufcg.computacao.si1.service.UsuarioServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -20,6 +30,8 @@ public class UserAnuncioController {
 
     @Autowired
     private AnuncioServiceImpl anuncioService;
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
 
     @Autowired
     private AnuncioRepository anuncioRep;
@@ -54,8 +66,9 @@ public class UserAnuncioController {
         String titulo = anuncioForm.getTitulo();
         double preco = anuncioForm.getPreco();
         String tipo = anuncioForm.getTipo();
+        Usuario anunciante = usuarioService.getUsuarioLogado();
 
-        Anuncio anuncio = new AnuncioBuilder(titulo,preco,tipo).build();
+        Anuncio anuncio = new AnuncioBuilder(titulo,preco,tipo, anunciante).build();
 
         anuncioService.create(anuncio);
 
@@ -63,11 +76,25 @@ public class UserAnuncioController {
         return new ModelAndView("redirect:/user/cadastrar/anuncio");
     }
     
-    @RequestMapping(value = "/user/comprar/anuncio", method = RequestMethod.POST)
-    public ModelAndView comprarAnuncio(){
-    	return new ModelAndView();
+    @RequestMapping(value = "/user/listar/comprar/anuncio", method = RequestMethod.POST)
+    public ModelAndView comprarAnuncio(RedirectAttributes attributes,
+    		@RequestParam(value = "idAnuncio") long idAnuncio){   
     	
+    	Anuncio anuncio = anuncioService.getById(idAnuncio).get();
+    	
+    	Usuario vendedor = anuncio.getAnunciante();
+    	    	
+    	Usuario comprador = usuarioService.getUsuarioLogado();
+    	
+    	double valorAnuncio = anuncio.getPreco();
+    	
+    	comprador.debitar(valorAnuncio);
+    	
+    	vendedor.creditar(valorAnuncio);
+    	
+    	anuncioService.delete(idAnuncio);
+ 
+    	return new ModelAndView("redirect:/user/listar/anuncios");
     }
-
 
 }

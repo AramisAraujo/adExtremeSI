@@ -26,9 +26,7 @@ public class Usuario extends org.springframework.security.core.userdetails.User 
 	private RazaoSocial role;
 	@Column
 	private double saldo;
-	
-	@OneToMany
-	@JoinColumn(name="id_anunciante") 
+	@OneToMany(targetEntity=Anuncio.class)
 	private List<Anuncio> anuncios;
 
 	public Usuario() {
@@ -100,6 +98,16 @@ public class Usuario extends org.springframework.security.core.userdetails.User 
 
 	public void setAnuncios(List<Anuncio> anuncios) {
 		this.anuncios = anuncios;
+	}
+	
+	public void debitar(double valorDebito){
+		
+		this.saldo = this.saldo - valorDebito;
+	}
+	
+	public void creditar(double valorCredito){
+		
+		this.saldo = this.saldo + valorCredito;
 	}
 
 	@Override
