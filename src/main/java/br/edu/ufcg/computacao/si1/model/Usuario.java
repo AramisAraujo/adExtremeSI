@@ -22,6 +22,7 @@ public class Usuario extends org.springframework.security.core.userdetails.User 
 	@Column(nullable = false)
 	private String senha;
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	private RazaoSocial role;
 	@Column
 	private double saldo;

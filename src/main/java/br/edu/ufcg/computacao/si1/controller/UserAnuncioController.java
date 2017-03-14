@@ -62,6 +62,12 @@ public class UserAnuncioController {
         attributes.addFlashAttribute("mensagem", "Anúncio cadastrado com sucesso!");
         return new ModelAndView("redirect:/user/cadastrar/anuncio");
     }
+    
+    @RequestMapping(value = "/user/comprar/anuncio", method = RequestMethod.POST)
+    public ModelAndView comprarAnuncio(){
+    	return new ModelAndView();
+    	
+    }
 
 
 }
