@@ -2,6 +2,7 @@ package br.edu.ufcg.computacao.si1.model;
 
 import org.springframework.security.core.authority.AuthorityUtils;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.*;
@@ -24,6 +25,10 @@ public class Usuario extends org.springframework.security.core.userdetails.User 
 	private RazaoSocial role;
 	@Column
 	private double saldo;
+	
+	@OneToMany
+	@JoinColumn(name="id_anunciante") 
+	private List<Anuncio> anuncios;
 
 	public Usuario() {
 		super("default", "default", AuthorityUtils.createAuthorityList(RazaoSocial.USER.toString()));
@@ -86,6 +91,14 @@ public class Usuario extends org.springframework.security.core.userdetails.User 
 
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
+	}
+
+	public List<Anuncio> getAnuncios() {
+		return anuncios;
+	}
+
+	public void setAnuncios(List<Anuncio> anuncios) {
+		this.anuncios = anuncios;
 	}
 
 	@Override
