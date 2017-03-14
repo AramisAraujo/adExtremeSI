@@ -2,109 +2,147 @@ package br.edu.ufcg.computacao.si1.model;
 
 import org.springframework.security.core.authority.AuthorityUtils;
 
+import java.util.List;
+import java.util.Objects;
+
 import javax.persistence.*;
 
 @Entity(name = "Usuario")
 @Table(name = "tb_usuario")
-public class Usuario extends org.springframework.security.core.userdetails.User{
+public class Usuario extends org.springframework.security.core.userdetails.User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, unique = true)
-    private Long id;
-    @Column(nullable = false)
-    private String nome;
-    @Column(nullable = false, unique = true)
-    private String email;
-    @Column(nullable = false)
-    private String senha;
-    @Column(nullable = false)
-    private RazaoSocial role;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(nullable = false, unique = true)
+	private Long id;
+	@Column(nullable = false)
+	private String nome;
+	@Column(nullable = false, unique = true)
+	private String email;
+	@Column(nullable = false)
+	private String senha;
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private RazaoSocial role;
+	@Column
+	private double saldo;
+	
+	@OneToMany
+	@JoinColumn(name="id_anunciante") 
+	private List<Anuncio> anuncios;
 
-    public Usuario() {
-        super("default", "default", AuthorityUtils.createAuthorityList(RazaoSocial.USER.toString()));
-    }
+	public Usuario() {
+		super("default", "default", AuthorityUtils.createAuthorityList(RazaoSocial.USER.toString()));
+	}
 
-    public Usuario(String nome, String email, String senha, RazaoSocial role) {
+	public Usuario(String nome, String email, String senha, RazaoSocial role) {
 
-        super(email, senha, AuthorityUtils.createAuthorityList(role.toString()));
+		super(email, senha, AuthorityUtils.createAuthorityList(role.toString()));
 
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.role = role;
-    }
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+		this.role = role;
+		this.saldo = 0.0;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getSenha() {
-        return senha;
-    }
+	public String getSenha() {
+		return senha;
+	}
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
-    public RazaoSocial getRole() {
-        return role;
-    }
+	public RazaoSocial getRole() {
+		return role;
+	}
 
-    public void setRole(RazaoSocial role) {
-        this.role = role;
-    }
+	public void setRole(RazaoSocial role) {
+		this.role = role;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Usuario)) {
-            return false;
-        }
-        if (!super.equals(o)) {
-            return false;
-        }
+	public double getSaldo() {
+		return saldo;
+	}
 
-        Usuario usuario = (Usuario) o;
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
+	}
 
-        if (id != null ? !id.equals(usuario.id) : usuario.id != null) {
-            return false;
-        }
-        if (email != null ? !email.equals(usuario.email) : usuario.email != null) {
-            return false;
-        }
-        return role != null ? role.equals(usuario.role) : usuario.role == null;
-    }
+	public List<Anuncio> getAnuncios() {
+		return anuncios;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (id != null ? id.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
-        return result;
-    }
+	public void setAnuncios(List<Anuncio> anuncios) {
+		this.anuncios = anuncios;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (obj.getClass() != Usuario.class) {
+			return false;
+		}
+
+		Usuario outro = (Usuario) obj;
+
+		if (!this.nome.equals(outro.nome)) {
+			return false;
+		}
+		if (!this.email.equals(outro.email)) {
+			return false;
+		}
+		if (!this.senha.equals(outro.senha)) {
+			return false;
+		}
+		if (!this.role.equals(outro.role)) {
+			return false;
+		}
+		if (this.saldo != outro.saldo) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(saldo);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
+		return result;
+	}
 
 }

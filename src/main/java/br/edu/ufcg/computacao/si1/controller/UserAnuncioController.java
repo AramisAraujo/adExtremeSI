@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 
 @Controller
-public class An {
+public class UserAnuncioController {
 
     @Autowired
     private AnuncioServiceImpl anuncioService;
@@ -61,6 +61,12 @@ public class An {
 
         attributes.addFlashAttribute("mensagem", "Anúncio cadastrado com sucesso!");
         return new ModelAndView("redirect:/user/cadastrar/anuncio");
+    }
+    
+    @RequestMapping(value = "/user/comprar/anuncio", method = RequestMethod.POST)
+    public ModelAndView comprarAnuncio(){
+    	return new ModelAndView();
+    	
     }
 
 
