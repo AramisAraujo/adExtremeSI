@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 
 @Controller
-public class An {
+public class UserAnuncioController {
 
     @Autowired
     private AnuncioServiceImpl anuncioService;
@@ -28,7 +28,7 @@ public class An {
     public ModelAndView getPageCadastrarAnuncio(AnuncioForm anuncioForm){
         ModelAndView model = new ModelAndView();
 
-        model.addObject("tipos", anuncioForm.getTipos());
+        model.addObject("tipos", AnuncioForm.getTipos());
         model.setViewName("user/cadastrar_anuncio");
 
         return model;
