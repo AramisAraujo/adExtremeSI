@@ -35,13 +35,18 @@ public class Anuncio {
 
     @Column(name = "tipo", nullable = false)
     private String tipo;
-
-    public Anuncio(String titulo, Date dataDeCriacao, double preco, Notas nota, String tipo) {
+    
+    @ManyToOne
+    private Usuario anunciante;
+   
+    public Anuncio(String titulo, Date dataDeCriacao, double preco, Notas nota, String tipo, Usuario anunciante) {
         this.titulo = titulo;
         this.dataDeCriacao = dataDeCriacao;
         this.preco = preco;
         this.nota = nota;
         this.tipo = tipo;
+        this.anunciante = anunciante;
+
     }
 
     private Anuncio(AnuncioBuilder builder) {
@@ -50,6 +55,7 @@ public class Anuncio {
         this.preco = builder.preco;
         this.nota = builder.nota;
         this.tipo = builder.tipo;
+        this.anunciante = builder.anunciante;
     }
 
     /**
@@ -117,7 +123,15 @@ public class Anuncio {
         this.tipo = tipo;
     }
 
-    public static class AnuncioBuilder {
+    public Usuario getAnunciante() {
+		return anunciante;
+	}
+
+	public void setAnunciante(Usuario anunciante) {
+		this.anunciante = anunciante;
+	}
+
+	public static class AnuncioBuilder {
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         @Column(name = "id", nullable = false, unique = true)
@@ -137,11 +151,15 @@ public class Anuncio {
 
         @Column(name = "tipo", nullable = false)
         private String tipo;
+        
+        @ManyToOne
+        private Usuario anunciante;
 
-        public AnuncioBuilder(String titulo, double preco, String tipo) {
+        public AnuncioBuilder(String titulo, double preco, String tipo, Usuario anunciante) {
             this.titulo = titulo;
             this.preco = preco;
             this.tipo = tipo;
+            this.anunciante = anunciante;
         }
 
         public AnuncioBuilder nota(Notas nota) {
@@ -160,7 +178,7 @@ public class Anuncio {
 
     }
 
-    @Override
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

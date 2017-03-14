@@ -5,6 +5,8 @@ import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.model.form.UsuarioForm;
 import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -77,5 +79,15 @@ public class UsuarioServiceImpl implements UsuarioService{
             return true;
         }
         return false;
+    }
+    
+    public Usuario getUsuarioLogado(){
+    	
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	
+    	String emailUsuario = auth.getName();
+    	    	
+    	return this.getByEmail(emailUsuario).get();
+    	
     }
 }

@@ -1,9 +1,12 @@
 package br.edu.ufcg.computacao.si1.controller;
 
 import br.edu.ufcg.computacao.si1.model.Anuncio;
+import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.model.Anuncio.AnuncioBuilder;
 import br.edu.ufcg.computacao.si1.model.form.AnuncioForm;
 import br.edu.ufcg.computacao.si1.service.AnuncioServiceImpl;
+import br.edu.ufcg.computacao.si1.service.UsuarioServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -19,6 +22,8 @@ public class CompanyAnuncioController {
 
     @Autowired
     private AnuncioServiceImpl anuncioService;
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
 
     @RequestMapping(value = "/company/cadastrar/anuncio", method = RequestMethod.GET)
     public ModelAndView getPageCadastarAnuncio(AnuncioForm anuncioForm){
@@ -50,8 +55,9 @@ public class CompanyAnuncioController {
         String titulo = anuncioForm.getTitulo();
         double preco = anuncioForm.getPreco();
         String tipo = anuncioForm.getTipo();
+        Usuario anunciante = usuarioService.getUsuarioLogado();
 
-        Anuncio anuncio = new AnuncioBuilder(titulo,preco,tipo).build();
+        Anuncio anuncio = new AnuncioBuilder(titulo,preco,tipo, anunciante).build();
 
         anuncioService.create(anuncio);
 
