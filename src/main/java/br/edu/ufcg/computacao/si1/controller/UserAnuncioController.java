@@ -63,8 +63,10 @@ public class UserAnuncioController {
         return new ModelAndView("redirect:/user/cadastrar/anuncio");
     }
     
-    @RequestMapping(value = "/user/comprar/anuncio", method = RequestMethod.POST)
-    public ModelAndView comprarAnuncio(){
+    @RequestMapping(value = "/user/listar/comprar/anuncio", method = RequestMethod.POST)
+    public ModelAndView comprarAnuncio(Anuncio anuncio){   	
+    	
+    	System.out.println("COMPROU ANUNCIO " + anuncio.getTipo());
     	return new ModelAndView();
     	
     }

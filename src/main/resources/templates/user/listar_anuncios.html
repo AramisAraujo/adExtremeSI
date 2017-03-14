@@ -20,7 +20,6 @@
                     <th>Tipo</th>
                     <th>Postado</th>
                     <th align="right">Preço</th>
-                    <th>Comprar</th>
                 </tr>
 
                 <th:block th:each="item : ${anuncios}">
@@ -29,9 +28,8 @@
                         <td th:text="${#strings.toUpperCase(item.tipo)}"> - </td>
                         <td th:text="${item.dataDeCriacao}"> - </td>
                         <td align="center" th:text="${'R$ ' + #numbers.formatDecimal(item.preco, 0, 'COMMA', 2, 'POINT')}">0.00</td>
-                        <form action="#" data-th-action="@{/comprar}" data-th-object="${item.id}" method="post">
-                        <!---><form action="#" data-th-action="@{/comprar}" data-th-object="${item.id}" method="post">-->
-                            <button type="submit" name="action" value="save">Comprar</button>
+                        <form action="#" data-th-action="@{comprar/anuncio}" th:object="{item}" method="post">
+                            <button type="submit" name="action" value="save" class="btn btn-success">Comprar</button>
                         </form>
                     </tr>
                 </th:block>
