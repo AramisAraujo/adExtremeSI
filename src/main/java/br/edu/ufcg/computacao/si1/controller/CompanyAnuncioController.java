@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -65,6 +66,27 @@ public class CompanyAnuncioController {
 
         attributes.addFlashAttribute("mensagem", "Anúncio cadastrado com sucesso!");
         return new ModelAndView("redirect:/company/cadastrar/anuncio");
+    }
+    
+    @RequestMapping(value = "/company/listar/comprar/anuncio", method = RequestMethod.POST)
+    public ModelAndView comprarAnuncio(RedirectAttributes attributes,
+    		@RequestParam(value = "idAnuncio") long idAnuncio){   
+    	
+    	Anuncio anuncio = anuncioService.getById(idAnuncio).get();
+    	
+    	Usuario vendedor = anuncio.getAnunciante();
+    	    	
+    	Usuario comprador = usuarioService.getUsuarioLogado();
+    	
+    	double valorAnuncio = anuncio.getPreco();
+    	
+    	comprador.debitar(valorAnuncio);
+    	
+    	vendedor.creditar(valorAnuncio);
+    	
+    	anuncioService.delete(idAnuncio);
+ 
+    	return new ModelAndView("redirect:/company/listar/anuncios");
     }
 
 
