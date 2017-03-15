@@ -2,6 +2,8 @@ package br.edu.ufcg.computacao.si1.service;
 
 import br.edu.ufcg.computacao.si1.model.Anuncio;
 import br.edu.ufcg.computacao.si1.model.Notas;
+import br.edu.ufcg.computacao.si1.model.RazaoSocial;
+import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -30,12 +32,15 @@ public class AnuncioServiceTest {
 
     private Anuncio anuncio1, anuncio2, anuncio3;
 
+    private Usuario anunciante;
+
 
     @Before
     public void setUp() {
-        anuncio1 = new Anuncio("Anuncio de Movel", new Date(), 100, Notas.ESTRELA2, "movel");
-        anuncio2 = new Anuncio("Anuncio de Imovel", new Date(), 100000, Notas.ESTRELA3, "imovel");
-        anuncio3 = new Anuncio("Anuncio de Emprego", new Date(), 0, Notas.ESTRELA1, "emprego");
+        anunciante = new Usuario("Gabriel", "gabrielmaracaj@gmail.com", "gabriel", RazaoSocial.USER);
+        anuncio1 = new Anuncio("Anuncio de Movel", new Date(), 100, Notas.ESTRELA2, "movel", anunciante);
+        anuncio2 = new Anuncio("Anuncio de Imovel", new Date(), 100000, Notas.ESTRELA3, "imovel", anunciante);
+        anuncio3 = new Anuncio("Anuncio de Emprego", new Date(), 0, Notas.ESTRELA1, "emprego", anunciante);
     }
 
     @After

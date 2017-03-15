@@ -1,5 +1,10 @@
 package br.edu.ufcg.computacao.si1.controller;
 
+import br.edu.ufcg.computacao.si1.model.Usuario;
+import br.edu.ufcg.computacao.si1.service.UsuarioServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -7,6 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class WebPagesController {
+
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView getPageIndex(){
@@ -27,14 +35,15 @@ public class WebPagesController {
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ModelAndView getPageIndexUser(){
         ModelAndView model = new ModelAndView();
+        model.addObject("usuario", usuarioService.getUsuarioLogado());
         model.setViewName("user/index");
-
         return model;
     }
 
     @RequestMapping(value = "/company", method = RequestMethod.GET)
     public ModelAndView getPageIndexCompany(){
         ModelAndView model = new ModelAndView();
+        model.addObject("usuario", usuarioService.getUsuarioLogado());
         model.setViewName("company/index");
 
         return model;
