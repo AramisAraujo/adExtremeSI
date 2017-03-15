@@ -41,6 +41,7 @@ public class UserAnuncioController {
         ModelAndView model = new ModelAndView();
 
         model.addObject("tipos", anuncioForm.getTipos());
+        model.addObject("usuario", usuarioService.getUsuarioLogado());
         model.setViewName("user/cadastrar_anuncio");
 
         return model;
@@ -51,6 +52,7 @@ public class UserAnuncioController {
         ModelAndView model = new ModelAndView();
 
         model.addObject("anuncios", anuncioRep.findAll());
+        model.addObject("usuario", usuarioService.getUsuarioLogado());
 
         model.setViewName("user/listar_anuncios");
 
