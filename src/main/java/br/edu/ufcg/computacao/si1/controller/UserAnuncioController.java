@@ -41,7 +41,7 @@ public class UserAnuncioController {
         ModelAndView model = new ModelAndView();
 
         model.addObject("tipos", anuncioForm.getTipos());
-        model.addObject("usuario", usuarioService.getUsuarioLogado());
+        model.addObject("usuario", usuarioService.getLoggedUser());
         model.setViewName("user/cadastrar_anuncio");
 
         return model;
@@ -52,7 +52,7 @@ public class UserAnuncioController {
         ModelAndView model = new ModelAndView();
 
         model.addObject("anuncios", anuncioRep.findAll());
-        model.addObject("usuario", usuarioService.getUsuarioLogado());
+        model.addObject("usuario", usuarioService.getLoggedUser());
 
         model.setViewName("user/listar_anuncios");
 
@@ -68,7 +68,7 @@ public class UserAnuncioController {
         String titulo = anuncioForm.getTitulo();
         double preco = anuncioForm.getPreco();
         String tipo = anuncioForm.getTipo();
-        Usuario anunciante = usuarioService.getUsuarioLogado();
+        Usuario anunciante = usuarioService.getLoggedUser();
 
         Anuncio anuncio = new AnuncioBuilder(titulo,preco,tipo, anunciante).build();
 
@@ -86,7 +86,7 @@ public class UserAnuncioController {
     	
     	Usuario vendedor = anuncio.getAnunciante();
     	    	
-    	Usuario comprador = usuarioService.getUsuarioLogado();
+    	Usuario comprador = usuarioService.getLoggedUser();
     	
     	double valorAnuncio = anuncio.getPreco();
     	

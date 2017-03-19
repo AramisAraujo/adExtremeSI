@@ -24,12 +24,12 @@ public class CompanyAnuncioController {
     @Autowired
     private AnuncioServiceImpl anuncioService;
     @Autowired
-    private UsuarioServiceImpl usuarioService;
+    private UsuarioServiceImpl UsuarioService;
 
     @RequestMapping(value = "/company/cadastrar/anuncio", method = RequestMethod.GET)
     public ModelAndView getPageCadastarAnuncio(AnuncioForm anuncioForm){
         ModelAndView model = new ModelAndView();
-        model.addObject("usuario", usuarioService.getUsuarioLogado());
+        model.addObject("Usuario", UsuarioService.getLoggedUser());
 
         model.addObject("tipos", anuncioForm.getTipos());
         model.setViewName("company/cadastrar_anuncio");
@@ -42,7 +42,7 @@ public class CompanyAnuncioController {
         ModelAndView model = new ModelAndView();
 
         model.addObject("anuncios", anuncioService.getAnuncioRepository().findAll());
-        model.addObject("usuario", usuarioService.getUsuarioLogado());
+        model.addObject("Usuario", UsuarioService.getLoggedUser());
 
         model.setViewName("company/listar_anuncios");
 
@@ -58,7 +58,7 @@ public class CompanyAnuncioController {
         String titulo = anuncioForm.getTitulo();
         double preco = anuncioForm.getPreco();
         String tipo = anuncioForm.getTipo();
-        Usuario anunciante = usuarioService.getUsuarioLogado();
+        Usuario anunciante = UsuarioService.getLoggedUser();
 
         Anuncio anuncio = new AnuncioBuilder(titulo,preco,tipo, anunciante).build();
 
@@ -76,7 +76,7 @@ public class CompanyAnuncioController {
     	
     	Usuario vendedor = anuncio.getAnunciante();
     	    	
-    	Usuario comprador = usuarioService.getUsuarioLogado();
+    	Usuario comprador = UsuarioService.getLoggedUser();
     	
     	double valorAnuncio = anuncio.getPreco();
     	
