@@ -5,6 +5,7 @@ import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.model.form.UsuarioForm;
 import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -52,7 +53,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public Optional<Usuario> getByEmail(String email) {
-        System.out.println(email + "estah sendo retornado");
+        System.out.println(email + " estah sendo retornado");
         return Optional.ofNullable(usuarioRepository.findByEmail(email));
     }
 
@@ -81,13 +82,38 @@ public class UsuarioServiceImpl implements UsuarioService{
         return false;
     }
     
-    public Usuario getUsuarioLogado(){
+    public Usuario getLoggedUser() throws AuthenticationCredentialsNotFoundException{
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	
     	String emailUsuario = auth.getName();
+    	
+    	if(getByEmail(emailUsuario).isPresent()){
+    		
+    		return this.getByEmail(emailUsuario).get();
+    	}
+    	else{
+    		throw new AuthenticationCredentialsNotFoundException("Este usuario nao existe ou nao estah logado.");
+    	}
     	    	
-    	return this.getByEmail(emailUsuario).get();
     	
     }
+    
+    public boolean userIsLogged(){
+    	
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	
+    	String emailUsuario = auth.getName();
+    	
+    	if(getByEmail(emailUsuario).isPresent()){
+    		
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
+    	
+    	
+    }
+    
 }

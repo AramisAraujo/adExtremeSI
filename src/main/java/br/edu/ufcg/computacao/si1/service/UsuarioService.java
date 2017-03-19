@@ -18,4 +18,8 @@ public interface UsuarioService {
     boolean update(Usuario usuario);
 
     boolean delete(Long id);
+    
+    Usuario getLoggedUser();
+    
+   boolean userIsLogged();
 }
