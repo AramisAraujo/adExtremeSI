@@ -7,19 +7,20 @@ import java.util.Collection;
 import java.util.Optional;
 
 public interface UsuarioService {
-    Usuario create(UsuarioForm usuarioForm);
 
-    Optional<Usuario> getById(Long id);
+    public Usuario create(UsuarioForm usuarioForm);
 
-    Optional<Usuario> getByEmail(String email);
+    public Optional<Usuario> getById(Long id);
 
-    Collection<Usuario> getAll();
+    public Optional<Usuario> getByEmail(String email);
 
-    boolean update(Usuario usuario);
+    public Collection<Usuario> getAll();
 
-    boolean delete(Long id);
+    public boolean update(Usuario usuario);
+
+    public boolean delete(Long id);
     
-    Usuario getLoggedUser();
+    public Usuario getLoggedUser();
     
-   boolean userIsLogged();
+    public boolean userIsLogged();
 }
