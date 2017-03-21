@@ -8,19 +8,19 @@ import java.util.Optional;
 
 public interface UsuarioService {
 
-    Usuario create(UsuarioForm usuarioForm);
+    public Usuario create(UsuarioForm usuarioForm);
 
-    Optional<Usuario> getById(Long id);
+    public Optional<Usuario> getById(Long id);
 
-    Optional<Usuario> getByEmail(String email);
+    public Optional<Usuario> getByEmail(String email);
 
-    Collection<Usuario> getAll();
+    public Collection<Usuario> getAll();
 
-    boolean update(Usuario usuario);
+    public boolean update(Usuario usuario);
 
-    boolean delete(Long id);
+    public boolean delete(Long id);
     
-    Usuario getLoggedUser();
+    public Usuario getLoggedUser();
     
-    boolean userIsLogged();
+    public boolean userIsLogged();
 }

@@ -7,16 +7,16 @@ import java.util.Optional;
 
 public interface AnuncioService {
 
-    Anuncio create(Anuncio anuncio);
+    public Anuncio create(Anuncio anuncio);
 
-    Optional<Anuncio> getById(Long id);
+    public Optional<Anuncio> getById(Long id);
 
-    Collection<Anuncio> get(String tipo);
+    public Collection<Anuncio> get(String tipo);
 
-    Collection<Anuncio> getAll();
+    public Collection<Anuncio> getAll();
 
-    boolean update(Anuncio anuncio);
+    public boolean update(Anuncio anuncio);
 
-    boolean delete(Long id);
+    public boolean delete(Long id);
 
 }
