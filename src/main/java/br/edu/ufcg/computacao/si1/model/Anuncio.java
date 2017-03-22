@@ -91,8 +91,8 @@ public class Anuncio {
         this.titulo = titulo;
     }
 
-    public String getDataDeCriacao() {
-        return DATE_FORMAT.format(dataDeCriacao);
+    public Date getDataDeCriacao() {
+        return this.dataDeCriacao;
     }
 
     public void setDataDeCriacao(Date dataDeCriacao) {

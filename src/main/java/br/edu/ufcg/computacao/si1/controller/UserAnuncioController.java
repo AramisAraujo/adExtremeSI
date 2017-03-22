@@ -3,6 +3,7 @@ package br.edu.ufcg.computacao.si1.controller;
 import br.edu.ufcg.computacao.si1.model.Anuncio;
 import br.edu.ufcg.computacao.si1.model.Anuncio.AnuncioBuilder;
 import br.edu.ufcg.computacao.si1.model.Usuario;
+import br.edu.ufcg.computacao.si1.model.form.AnuncioFilterForm;
 import br.edu.ufcg.computacao.si1.model.form.AnuncioForm;
 import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
 import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
@@ -10,10 +11,14 @@ import br.edu.ufcg.computacao.si1.service.AnuncioServiceImpl;
 import br.edu.ufcg.computacao.si1.service.UsuarioServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +26,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -53,7 +62,53 @@ public class UserAnuncioController {
 
         model.addObject("anuncios", anuncioRep.findAll());
         model.addObject("usuario", usuarioService.getLoggedUser());
+       
+        model.setViewName("user/listar_anuncios");
 
+        return model;
+    }
+    
+    @InitBinder
+    public void initBinder (WebDataBinder binder) {
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-mm-dd"), true));
+    }
+    
+    @RequestMapping(value = "/user/listar/filtrar", method = RequestMethod.POST)
+    public ModelAndView filterPageAnuncios(@Valid AnuncioFilterForm anuncioFilterForm){
+    	
+        ModelAndView model = new ModelAndView();
+        
+        Collection<Anuncio> anuncios;
+        
+        if(anuncioFilterForm.shouldShowOwned()){
+        	long idUsuario = anuncioFilterForm.getIdUsuario();
+        	anuncios = anuncioService.getByUserId(idUsuario);
+        }
+        else{
+        	anuncios = anuncioService.getAll();
+        }
+        
+        String type = anuncioFilterForm.getType();
+        Collection<Anuncio> anunciosByType;
+        if(type.equals("todos")){
+        	anunciosByType = anuncios;
+        }else{
+        	
+        	anunciosByType = anuncioService.getByType(type);
+        }
+        
+        Date from = anuncioFilterForm.getFromDate();
+        Date until = anuncioFilterForm.getToDate();
+        
+        Collection<Anuncio> anunciosByDate = anuncioService.getByDateBetween(from, until);
+        
+        anuncios.retainAll(anunciosByDate);
+        
+        anuncios.retainAll(anunciosByType);
+        
+        model.addObject("usuario", usuarioService.getLoggedUser());
+        model.addObject("anuncios", anuncios);
+        
         model.setViewName("user/listar_anuncios");
 
         return model;

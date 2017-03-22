@@ -29,7 +29,7 @@ public class CompanyAnuncioController {
     @RequestMapping(value = "/company/cadastrar/anuncio", method = RequestMethod.GET)
     public ModelAndView getPageCadastarAnuncio(AnuncioForm anuncioForm){
         ModelAndView model = new ModelAndView();
-        model.addObject("Usuario", usuarioService.getLoggedUser());
+        model.addObject("usuario", usuarioService.getLoggedUser());
 
         model.addObject("tipos", anuncioForm.getTipos());
         model.setViewName("company/cadastrar_anuncio");
@@ -42,7 +42,7 @@ public class CompanyAnuncioController {
         ModelAndView model = new ModelAndView();
 
         model.addObject("anuncios", anuncioService.getAnuncioRepository().findAll());
-        model.addObject("Usuario", usuarioService.getLoggedUser());
+        model.addObject("usuario", usuarioService.getLoggedUser());
 
         model.setViewName("company/listar_anuncios");
 
@@ -76,7 +76,7 @@ public class CompanyAnuncioController {
     	
     	Usuario vendedor = anuncio.getAnunciante();
     	    	
-    	Usuario comprador = UsuarioService.getLoggedUser();
+    	Usuario comprador = usuarioService.getLoggedUser();
     	
     	double valorAnuncio = anuncio.getPreco();
     	

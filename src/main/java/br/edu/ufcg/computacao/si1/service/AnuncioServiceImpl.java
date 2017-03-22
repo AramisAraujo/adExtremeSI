@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by Marcus Oliveira on 28/12/16.
@@ -45,15 +48,42 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
-    public Collection<Anuncio> get(String tipo) {
+    public Collection<Anuncio> getByType(String tipo) {
 
         /*pegamos aqui todos os anuncios, mas retornamos os anuncios por tipo
-        * filtrando o tipo, pelo equals, retornando um arrayLista*/
+        * filtrando o tipo, pelo equals, retornando um arrayList*/
         return anuncioRepository.findAll().stream()
                 .filter(anuncio -> anuncio.getTipo().equals(tipo))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
-
+    
+    @Override
+    public Collection<Anuncio> getByDateBetween(Date fromDate, Date untilDate) {
+    	/*pegamos aqui todos os anuncios, mas retornamos os anuncios por data
+    	 * filtrando a data de criacao, pelo equals, retornando um arrayList*/
+    	
+    	Collection<Anuncio> anuncios = this.getAll();
+    	
+    	Stream<Anuncio> filteredAnuncios = anuncios.stream().filter(anuncio -> anuncio.getDataDeCriacao()
+    			.after(fromDate));
+    	
+    	filteredAnuncios = filteredAnuncios.filter(anuncio -> anuncio.getDataDeCriacao().before(untilDate));
+    		
+    		return filteredAnuncios.collect(Collectors.toCollection(ArrayList::new));
+    	
+    }
+    
+    @Override
+    public Collection<Anuncio> getByUserId(long id){
+    	    	
+    	Collection<Anuncio> anuncios = this.getAll();
+    	
+    	Stream<Anuncio> filteredAnuncios = anuncios.stream().filter(anuncio -> anuncio.getAnunciante().getId() == id);
+    	
+    	return filteredAnuncios.collect(Collectors.toCollection(ArrayList::new));
+    	
+    }
+    
     @Override
     public Collection<Anuncio> getAll() {
         /*aqui retornamos todos os anuncios, sem distincao*/
