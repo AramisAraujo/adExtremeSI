@@ -6,14 +6,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
-/**
- * Created by Marcus Oliveira on 28/12/16.
- */
 public interface AnuncioService {
 
-    Anuncio create(Anuncio anuncio);
+    public Anuncio create(Anuncio anuncio);
 
-    Optional<Anuncio> getById(Long id);
+    public Optional<Anuncio> getById(Long id);
 
     Collection<Anuncio> getByType(String tipo);
     
@@ -21,10 +18,10 @@ public interface AnuncioService {
     
     Collection<Anuncio> getByUserId(long id);
 
-    Collection<Anuncio> getAll();
+    public Collection<Anuncio> getAll();
 
-    boolean update(Anuncio anuncio);
+    public boolean update(Anuncio anuncio);
 
-    boolean delete(Long id);
+    public boolean delete(Long id);
 
 }
