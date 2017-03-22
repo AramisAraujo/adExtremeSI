@@ -53,7 +53,7 @@ public class AnuncioServiceImpl implements AnuncioService {
         /*pegamos aqui todos os anuncios, mas retornamos os anuncios por tipo
         * filtrando o tipo, pelo equals, retornando um arrayList*/
         return anuncioRepository.findAll().stream()
-                .filter(anuncio -> anuncio.getTipo().equals(tipo))
+                .filter(anuncio -> anuncio.getTipo().equalsIgnoreCase(tipo))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
     
