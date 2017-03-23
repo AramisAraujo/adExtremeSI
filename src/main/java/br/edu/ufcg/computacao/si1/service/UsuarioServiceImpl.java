@@ -4,6 +4,8 @@ import br.edu.ufcg.computacao.si1.model.RazaoSocial;
 import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.model.form.UsuarioForm;
 import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService{
 
     private UsuarioRepository usuarioRepository;
+    protected Log logger = LogFactory.getLog(this.getClass());
 
     @Autowired
     public void setUsuarioRepository(UsuarioRepository usuarioRepository) {
@@ -41,30 +44,30 @@ public class UsuarioServiceImpl implements UsuarioService{
                 usuario.setRole(RazaoSocial.COMPANY);
                 break;
         }
-
-        System.out.println(usuario + "estah sendo criado");
+        logger.debug("Usuário novo está sendo criado");
         return usuarioRepository.save(usuario);
     }
 
     @Override
     public Optional<Usuario> getById(Long id) {
+        logger.debug("Usuário está sendo retornado pelo id");
         return Optional.ofNullable(usuarioRepository.findOne(id));
     }
 
     @Override
     public Optional<Usuario> getByEmail(String email) {
-        System.out.println(email + " estah sendo retornado");
         return Optional.ofNullable(usuarioRepository.findByEmail(email));
     }
 
     @Override
     public Collection<Usuario> getAll() {
+        logger.debug("Retornando todos os usuários");
         return usuarioRepository.findAll();
     }
 
     @Override
     public boolean update(Usuario usuario) {
-        System.out.println(usuario + "estah sendo atualizado");
+        logger.debug("Usuário " + usuario.getNome() + " está sendo atualizado");
 
         if (usuarioRepository.exists(usuario.getId())) {
             usuarioRepository.save(usuario);
@@ -76,6 +79,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     @Override
     public boolean delete(Long id) {
         if (usuarioRepository.exists(id)) {
+            logger.debug("Usuário está sendo deletado");
             usuarioRepository.delete(id);
             return true;
         }
