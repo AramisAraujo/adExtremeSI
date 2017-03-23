@@ -14,7 +14,7 @@ import java.util.Optional;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private static final Logger logger = LoggerFactory.getLogger(Serializable.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomUserDetailsService.class);
     private final UsuarioService userService;
 
     @Autowired
@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public Usuario loadUserByUsername(String email) throws UsernameNotFoundException {
-        logger.debug("Autenticando usuário com email = {}", email.replaceFirst("@.*", "@***"));
+        LOGGER.debug("Autenticando usuário com email = {}", email.replaceFirst("@.*", "@***"));
 
         Optional<Usuario> usuario = userService.getByEmail(email);
 

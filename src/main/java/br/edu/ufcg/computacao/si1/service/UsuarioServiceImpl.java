@@ -19,7 +19,7 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService{
 
     private UsuarioRepository usuarioRepository;
-    protected Log logger = LogFactory.getLog(this.getClass());
+    private static final Log LOGGER = LogFactory.getLog(UsuarioService.class);
 
     @Autowired
     public void setUsuarioRepository(UsuarioRepository usuarioRepository) {
@@ -44,13 +44,13 @@ public class UsuarioServiceImpl implements UsuarioService{
                 usuario.setRole(RazaoSocial.COMPANY);
                 break;
         }
-        logger.debug("Usuário novo está sendo criado");
+        LOGGER.debug("Usuário novo está sendo criado");
         return usuarioRepository.save(usuario);
     }
 
     @Override
     public Optional<Usuario> getById(Long id) {
-        logger.debug("Usuário está sendo retornado pelo id");
+        LOGGER.debug("Usuário está sendo retornado pelo id");
         return Optional.ofNullable(usuarioRepository.findOne(id));
     }
 
@@ -61,13 +61,13 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public Collection<Usuario> getAll() {
-        logger.debug("Retornando todos os usuários");
+        LOGGER.debug("Retornando todos os usuários");
         return usuarioRepository.findAll();
     }
 
     @Override
     public boolean update(Usuario usuario) {
-        logger.debug("Usuário " + usuario.getNome() + " está sendo atualizado");
+        LOGGER.debug("Usuário " + usuario.getNome() + " está sendo atualizado");
 
         if (usuarioRepository.exists(usuario.getId())) {
             usuarioRepository.save(usuario);
@@ -79,7 +79,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     @Override
     public boolean delete(Long id) {
         if (usuarioRepository.exists(id)) {
-            logger.debug("Usuário está sendo deletado");
+            LOGGER.debug("Usuário está sendo deletado");
             usuarioRepository.delete(id);
             return true;
         }
