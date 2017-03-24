@@ -45,7 +45,7 @@ public class CompanyAnuncioController {
         return model;
     }
 
-    @RequestMapping(value = "/company/listar/anuncios", method = RequestMethod.GET)
+    @RequestMapping(value = {"/company/listar/anuncios", "/company/listar/resetFilter"}, method = RequestMethod.GET)
     public ModelAndView getPageListarAnuncios(){
         ModelAndView model = new ModelAndView();
 

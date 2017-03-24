@@ -56,7 +56,7 @@ public class UserAnuncioController {
         return model;
     }
 
-    @RequestMapping(value = "/user/listar/anuncios", method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/listar/anuncios","/user/listar/resetFilter"}, method = RequestMethod.GET)
     public ModelAndView getPageListarAnuncios(){
         ModelAndView model = new ModelAndView();
 
