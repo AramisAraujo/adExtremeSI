@@ -49,7 +49,7 @@ public class UserAnuncioController {
     public ModelAndView getPageCadastrarAnuncio(AnuncioForm anuncioForm){
         ModelAndView model = new ModelAndView();
 
-        model.addObject("tipos", anuncioForm.getTipos());
+        model.addObject("tipos", anuncioForm.getTiposUsuario());
         model.addObject("usuario", usuarioService.getLoggedUser());
         model.setViewName("user/cadastrar_anuncio");
 
