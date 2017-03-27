@@ -7,6 +7,14 @@
     border-width: 1px;
     border-radius: 4px;
 }
+
+#menu.navbar-default-company{
+    font-size: 14px;
+    background-color: rgb(200, 197, 205);
+    border-width: 1px;
+    border-radius: 4px;
+}
+
 #menu.navbar-default .navbar-nav>li>a {
     color: rgba(255, 255, 255, 1);
     background-color: rgba(0, 136, 204, 1);
