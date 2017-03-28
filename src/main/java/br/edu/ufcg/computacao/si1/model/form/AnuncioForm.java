@@ -9,7 +9,8 @@ import javax.validation.constraints.Size;
 
 public class AnuncioForm {
 
-    private static final String[] tipos = new String[] {"movel", "imovel", "emprego"};
+    private final String[] tiposUsuario = new String[] {"movel", "imovel"};
+    private final String[] tiposCompany = new String[] {"movel", "imovel", "emprego"}; //adicionar serviço depois
 
     @NotNull(message = "O titulo não pode ser nulo.")
     @NotEmpty(message = "O titulo não pode estar vazio.")
@@ -45,9 +46,10 @@ public class AnuncioForm {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-
-    public static String[] getTipos() {
-        return tipos;
+    public String[] getTiposUsuario() {
+        return tiposUsuario;
     }
+
+    public String[] getTiposCompany() { return  tiposCompany; }
 }
 

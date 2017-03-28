@@ -39,7 +39,7 @@ public class CompanyAnuncioController {
         ModelAndView model = new ModelAndView();
         model.addObject("usuario", usuarioService.getLoggedUser());
 
-        model.addObject("tipos", anuncioForm.getTipos());
+        model.addObject("tipos", anuncioForm.getTiposCompany());
         model.setViewName("company/cadastrar_anuncio");
 
         return model;
