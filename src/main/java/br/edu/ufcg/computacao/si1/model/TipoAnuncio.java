@@ -13,8 +13,7 @@ public enum TipoAnuncio {
 		this.NAME = name;
 	}
 	
-	@Override
-	public String toString() {
+	public String getName() {
 		
 		return this.NAME;
 	}

@@ -32,7 +32,7 @@ public class Anuncio {
     @Enumerated(EnumType.STRING)
     private Notas nota;
 
-    @Column(name = "tipo", nullable = false)
+    @Column(name = "tipo")
     @Enumerated(EnumType.STRING)
     private TipoAnuncio tipo;
     
