@@ -73,11 +73,7 @@ public class WebPagesController {
 
 	private ModelAndView redirectToIndex() {
 
-		Usuario user = usuarioService.getLoggedUser();
-
-		String roleRedirect = user.getRole().name();
-
-		return new ModelAndView("redirect:/" + roleRedirect.toLowerCase());
+		return new ModelAndView("redirect:/user");
 
 	}
 
