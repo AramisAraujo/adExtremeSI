@@ -5,11 +5,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import br.edu.ufcg.computacao.si1.model.TipoAnuncio;
 
 public class AnuncioFilterForm {
 	
@@ -24,7 +28,8 @@ public class AnuncioFilterForm {
 	
 	@NotNull
     @NotEmpty
-	private String type;
+    @Enumerated(EnumType.STRING)
+	private TipoAnuncio type;
 	 
 	public long getIdUsuario() {
 		return idUsuario;
@@ -58,11 +63,11 @@ public class AnuncioFilterForm {
 		this.toDate = toDate;
 	}
 
-	public String getType() {
+	public TipoAnuncio getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(TipoAnuncio type) {
 		this.type = type;
 	}
 	

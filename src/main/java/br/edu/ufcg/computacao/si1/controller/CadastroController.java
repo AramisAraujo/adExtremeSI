@@ -1,5 +1,6 @@
 package br.edu.ufcg.computacao.si1.controller;
 
+import br.edu.ufcg.computacao.si1.model.RazaoSocial;
 import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.model.form.UsuarioForm;
 import br.edu.ufcg.computacao.si1.service.UsuarioService;
@@ -24,6 +25,8 @@ public class CadastroController {
     @RequestMapping(value = "/cadastrar-se", method = RequestMethod.GET)
     public ModelAndView getPageCadastro(UsuarioForm usuarioForm){
         ModelAndView model = new ModelAndView();
+        model.addObject("pessoaF",RazaoSocial.USER);
+        model.addObject("pessoaJ", RazaoSocial.COMPANY);
         model.setViewName("cadastro");
 
         return model;

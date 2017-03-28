@@ -1,6 +1,8 @@
 package br.edu.ufcg.computacao.si1.controller;
 
 import br.edu.ufcg.computacao.si1.model.Anuncio;
+import br.edu.ufcg.computacao.si1.model.RazaoSocial;
+import br.edu.ufcg.computacao.si1.model.TipoAnuncio;
 import br.edu.ufcg.computacao.si1.model.Anuncio.AnuncioBuilder;
 import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.model.form.AnuncioFilterForm;
@@ -49,8 +51,16 @@ public class UserAnuncioController {
     public ModelAndView getPageCadastrarAnuncio(AnuncioForm anuncioForm){
         ModelAndView model = new ModelAndView();
 
-        model.addObject("tipos", anuncioForm.getTiposUsuario());
-        model.addObject("usuario", usuarioService.getLoggedUser());
+        Usuario loggedUser = usuarioService.getLoggedUser();
+        
+        if(loggedUser.getRole().equals(RazaoSocial.COMPANY)){
+        	model.addObject("tiposAnuncio", anuncioForm.permCompany);
+        }
+        else if(loggedUser.getRole().equals(RazaoSocial.USER)){
+        	model.addObject("tiposAnuncio", anuncioForm.permUser);
+        }
+        
+        model.addObject("usuario", loggedUser);
         model.setViewName("user/cadastrar_anuncio");
 
         return model;
@@ -88,9 +98,10 @@ public class UserAnuncioController {
         	anuncios = anuncioService.getAll();
         }
         
-        String type = anuncioFilterForm.getType();
+        TipoAnuncio type = anuncioFilterForm.getType();
+        
         Collection<Anuncio> anunciosByType;
-        if(type.equals("todos")){
+        if(type.equals(TipoAnuncio.TODOS)){
         	anunciosByType = anuncios;
         }else{
         	
@@ -122,7 +133,7 @@ public class UserAnuncioController {
         
         String titulo = anuncioForm.getTitulo();
         double preco = anuncioForm.getPreco();
-        String tipo = anuncioForm.getTipo();
+        TipoAnuncio tipo = anuncioForm.getTipo();
         Usuario anunciante = usuarioService.getLoggedUser();
 
         Anuncio anuncio = new AnuncioBuilder(titulo,preco,tipo, anunciante).build();
@@ -145,11 +156,21 @@ public class UserAnuncioController {
     	
     	double valorAnuncio = anuncio.getPreco();
     	
-    	comprador.debitar(valorAnuncio);
+    	if(vendedor.equals(comprador)){
+    		
+    		return new ModelAndView("redirect:/user/listar/anuncios");
+    	}
     	
-    	vendedor.creditar(valorAnuncio);
+    	if (anuncio.getTipo().equals("emprego")) {
+			vendedor.debitar(valorAnuncio);
+			comprador.creditar(valorAnuncio);
+		}
+    	else{
+			comprador.debitar(valorAnuncio);
+			vendedor.creditar(valorAnuncio);
+    	}
     	
-    	anuncioService.delete(idAnuncio);
+		anuncioService.delete(idAnuncio);
  
     	return new ModelAndView("redirect:/user/listar/anuncios");
     }

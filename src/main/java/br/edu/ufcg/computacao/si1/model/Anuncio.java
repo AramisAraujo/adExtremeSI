@@ -12,8 +12,6 @@ import java.util.Date;
 @Table(name = "tb_anuncio")
 public class Anuncio {
 
-    private static final String[] tipos = new String[]{"movel", "imovel", "emprego"};
-
     private final static DateFormat DATE_FORMAT = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 
     @Id
@@ -31,15 +29,17 @@ public class Anuncio {
     private double preco;
 
     @Column(name = "nota")
+    @Enumerated(EnumType.STRING)
     private Notas nota;
 
     @Column(name = "tipo", nullable = false)
-    private String tipo;
+    @Enumerated(EnumType.STRING)
+    private TipoAnuncio tipo;
     
     @ManyToOne
     private Usuario anunciante;
    
-    public Anuncio(String titulo, Date dataDeCriacao, double preco, Notas nota, String tipo, Usuario anunciante) {
+    public Anuncio(String titulo, Date dataDeCriacao, double preco, Notas nota, TipoAnuncio tipo, Usuario anunciante) {
         this.titulo = titulo;
         this.dataDeCriacao = dataDeCriacao;
         this.preco = preco;
@@ -115,11 +115,11 @@ public class Anuncio {
         this.nota = nota;
     }
 
-    public String getTipo() {
+    public TipoAnuncio getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoAnuncio tipo) {
         this.tipo = tipo;
     }
 
@@ -150,12 +150,12 @@ public class Anuncio {
         private Notas nota = Notas.ESTRELA0;
 
         @Column(name = "tipo", nullable = false)
-        private String tipo;
+        private TipoAnuncio tipo;
         
         @ManyToOne
         private Usuario anunciante;
 
-        public AnuncioBuilder(String titulo, double preco, String tipo, Usuario anunciante) {
+        public AnuncioBuilder(String titulo, double preco, TipoAnuncio tipo, Usuario anunciante) {
             this.titulo = titulo;
             this.preco = preco;
             this.tipo = tipo;

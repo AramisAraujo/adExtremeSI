@@ -3,14 +3,19 @@ package br.edu.ufcg.computacao.si1.model.form;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import br.edu.ufcg.computacao.si1.model.TipoAnuncio;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class AnuncioForm {
 
-    private final String[] tiposUsuario = new String[] {"movel", "imovel"};
-    private final String[] tiposCompany = new String[] {"movel", "imovel", "emprego"}; //adicionar serviço depois
+    public static final TipoAnuncio[] permUser = new TipoAnuncio[] {TipoAnuncio.MOVEL, TipoAnuncio.IMOVEL};
+    public static final TipoAnuncio[] permCompany = new TipoAnuncio[] {TipoAnuncio.MOVEL, TipoAnuncio.IMOVEL,
+    		TipoAnuncio.EMPREGO,TipoAnuncio.SERVICO}; 
 
     @NotNull(message = "O titulo não pode ser nulo.")
     @NotEmpty(message = "O titulo não pode estar vazio.")
@@ -21,7 +26,8 @@ public class AnuncioForm {
     private Double preco;
     @NotNull(message = "O tipo de anúncio não pode ser nulo.")
     @NotEmpty(message = "Escolha um tipo para o anúncio.")
-    private String tipo;
+    @Enumerated(EnumType.STRING)
+    private TipoAnuncio tipo;
 
     public String getTitulo() {
         return titulo;
@@ -39,17 +45,13 @@ public class AnuncioForm {
         this.preco = preco;
     }
 
-    public String getTipo() {
+    public TipoAnuncio getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoAnuncio tipo) {
         this.tipo = tipo;
     }
-    public String[] getTiposUsuario() {
-        return tiposUsuario;
-    }
-
-    public String[] getTiposCompany() { return  tiposCompany; }
+    
 }
 

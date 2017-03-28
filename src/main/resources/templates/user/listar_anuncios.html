@@ -47,13 +47,14 @@
             <div th:if="${anuncios.isEmpty()}">
                 <h4>Nenhum Anúncio listado</h4>
             </div>
+
             <div th:if="${anuncios != null}" class="table-responsive">
                 <table style="width:100%" class="table table-bordered">
                     <tr>
                         <th>Titulo</th>
                         <th>Tipo</th>
                         <th>Postado</th>
-                        <th align="right">Preço</th>
+                        <th>Preço</th>
                         <th>Ação</th>
                     </tr>
 
@@ -65,8 +66,17 @@
                             <td align="center" th:text="${'R$ ' + #numbers.formatDecimal(item.preco, 0, 'COMMA', 2, 'POINT')}">0.00</td>
                             <td>
                                 <form th:action="@{comprar/anuncio}" method="post">
-                                    <input type="hidden" th:value="${item.id}" name="idAnuncio"/>
-                                    <button type="submit" class="btn btn-success">Comprar</button>
+                                    <div th:if="${item.anunciante != usuario}">
+                                        <input type="hidden" th:value="${item.id}" name="idAnuncio"/>
+                                        <button th:if="${item.tipo != 'emprego'}" type="submit" class="btn btn-success">Comprar</button>
+                                        <button th:if="${item.tipo == 'emprego'}" type="submit" class="btn btn-success">Aderir</button>
+                                    </div>
+                                </form>
+                                <form th:th:action="@{avaliar/anuncio}" method="post">
+                                    <div th:if="${item.anunciante != usuario}">
+                                        <input type="hidden" th:value="${item.id}" name="idAnuncio"/>
+                                        <button type="submit" class="btn btn-warning">Avaliar</button>
+                                    </div>
                                 </form>
                             </td>
                         </tr>
