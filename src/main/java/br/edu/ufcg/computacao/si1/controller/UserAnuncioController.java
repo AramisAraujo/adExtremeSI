@@ -1,6 +1,7 @@
 package br.edu.ufcg.computacao.si1.controller;
 
 import br.edu.ufcg.computacao.si1.model.Anuncio;
+import br.edu.ufcg.computacao.si1.model.Notificacao;
 import br.edu.ufcg.computacao.si1.model.RazaoSocial;
 import br.edu.ufcg.computacao.si1.model.TipoAnuncio;
 import br.edu.ufcg.computacao.si1.model.Anuncio.AnuncioBuilder;
@@ -8,8 +9,10 @@ import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.model.form.AnuncioFilterForm;
 import br.edu.ufcg.computacao.si1.model.form.AnuncioForm;
 import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
+import br.edu.ufcg.computacao.si1.repository.NotificacaoRepository;
 import br.edu.ufcg.computacao.si1.repository.UsuarioRepository;
 import br.edu.ufcg.computacao.si1.service.AnuncioServiceImpl;
+import br.edu.ufcg.computacao.si1.service.NotificacaoServiceImpl;
 import br.edu.ufcg.computacao.si1.service.UsuarioServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +46,13 @@ public class UserAnuncioController {
     private AnuncioServiceImpl anuncioService;
     @Autowired
     private UsuarioServiceImpl usuarioService;
+    @Autowired
+    private NotificacaoServiceImpl notificacaoService;
 
     @Autowired
     private AnuncioRepository anuncioRep;
+    @Autowired
+    private NotificacaoRepository notificacaoRep;
 
     @RequestMapping(value = "/user/cadastrar/anuncio", method = RequestMethod.GET)
     public ModelAndView getPageCadastrarAnuncio(AnuncioForm anuncioForm){
@@ -159,9 +166,7 @@ public class UserAnuncioController {
     	double valorAnuncio = anuncio.getPreco();
     	
     	if(vendedor.equals(comprador)){
-    		
-    		System.out.println("sou o mesmo " + idAnuncio);
-    		
+    		    		
     		return new ModelAndView("redirect:/user/listar/anuncios");
     	}
     	
@@ -175,7 +180,13 @@ public class UserAnuncioController {
     	}
     	
 		anuncioService.delete(idAnuncio);
- 
+		
+		String mensagem = "Seu anúncio '" + anuncio.getTitulo() + "' foi negociado.";
+		
+		Notificacao noti = new Notificacao(mensagem, vendedor, new Date());
+		
+		notificacaoService.create(noti);
+		
     	return new ModelAndView("redirect:/user/listar/anuncios");
     }
     
@@ -183,8 +194,43 @@ public class UserAnuncioController {
     public ModelAndView comprarAnuncioServico(RedirectAttributes attributes,
     		@RequestParam(value = "idAnuncio") long idAnuncio, @RequestParam(value ="data") Date data){
     	
+    	Anuncio anuncio = anuncioService.getById(idAnuncio).get();
+    	
+    	Usuario comprador = usuarioService.getLoggedUser();
+    	
+    	String mensagem = "Você agendou o serviço  '" + anuncio.getTitulo() + "' para a data '" + data.toString() + "'.";
+		
+		Notificacao noti = new Notificacao(mensagem, comprador, new Date());
+		
+		notificacaoService.create(noti);
+    	
     	return this.comprarAnuncio(attributes, idAnuncio);
     	
+    }
+    
+    @RequestMapping(value = "/user/listar/notificacoes", method = RequestMethod.GET)
+    public ModelAndView listarNotificacoes(RedirectAttributes attributes){
+    	
+        ModelAndView model = new ModelAndView();
+        
+        Usuario usuarioLogado = usuarioService.getLoggedUser();
+        
+        model.addObject("notificacoes", notificacaoService.getByUserId(usuarioLogado.getId()));
+        model.addObject("usuario", usuarioLogado);
+       
+        model.setViewName("user/listar_notificacoes");
+
+        return model;
+    	
+    }
+    
+    @RequestMapping(value = "/user/listar/notificacoes/excluir", method = RequestMethod.POST)
+    public ModelAndView listarNotificacoes(RedirectAttributes attributes, @RequestParam(value ="id") long id){
+        
+        notificacaoService.delete(id);
+       
+        return new ModelAndView("redirect:/user/listar/notificacoes");
+  	
     }
 
 }

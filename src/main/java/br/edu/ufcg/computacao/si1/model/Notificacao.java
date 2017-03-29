@@ -31,6 +31,16 @@ public class Notificacao {
 		return mensagem;
 	}
 
+	Notificacao(){
+		
+	}
+	
+	public Notificacao( String mensagem, Usuario usuario, Date dataCriacao) {
+		this.mensagem = mensagem;
+		this.usuario = usuario;
+		this.dataCriacao = dataCriacao;
+	}
+
 	public void setMensagem(String mensagem) {
 		this.mensagem = mensagem;
 	}
@@ -53,6 +63,14 @@ public class Notificacao {
 
 	@NotNull
 	private Date dataCriacao;
+
+	public long getId() {
+		return this.id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 	
 }

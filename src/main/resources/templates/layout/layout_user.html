@@ -25,6 +25,9 @@
             </button>
             <a class="navbar-brand"><span th:text="${'Saldo atual: R$ ' + #numbers.formatDecimal(usuario.saldo, 1, 'COMMA', 2, 'COMMA')}">0.00</span></a>
         </div>
+        <div>
+            <a class="navbar-brand" th:href="@{/user/listar/notificacoes}">Notificações</a>
+        </div>
         <div class="collapse navbar-collapse navbar-menubuilder">
             <ul class="nav navbar-nav navbar-left">
                 <li class="dropdown">
