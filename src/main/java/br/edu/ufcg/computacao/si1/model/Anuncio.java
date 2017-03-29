@@ -11,9 +11,7 @@ import java.util.Date;
 @Entity
 @Table(name = "tb_anuncio")
 public class Anuncio {
-
-    private final static DateFormat DATE_FORMAT = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-
+	
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)

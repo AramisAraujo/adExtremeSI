@@ -28,6 +28,8 @@ public class Usuario extends org.springframework.security.core.userdetails.User 
 	private double saldo;
 	@OneToMany(targetEntity=Anuncio.class)
 	private List<Anuncio> anuncios;
+	@OneToMany(targetEntity=Notificacao.class)
+	private List<Notificacao> notificacoes;
 
 	public Usuario() {
 		super("default", "default", AuthorityUtils.createAuthorityList(RazaoSocial.USER.toString()));
@@ -108,6 +110,14 @@ public class Usuario extends org.springframework.security.core.userdetails.User 
 	public void creditar(double valorCredito){
 		
 		this.saldo = this.saldo + valorCredito;
+	}
+
+	public List<Notificacao> getNotificacoes() {
+		return notificacoes;
+	}
+
+	public void setNotificacoes(List<Notificacao> notificacoes) {
+		this.notificacoes = notificacoes;
 	}
 
 	@Override

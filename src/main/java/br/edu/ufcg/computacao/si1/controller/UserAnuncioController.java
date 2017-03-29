@@ -81,9 +81,10 @@ public class UserAnuncioController {
     
     @InitBinder
     public void initBinder (WebDataBinder binder) {
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-mm-dd"), true));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"), true));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
     }
-    
+        
     @RequestMapping(value = "/user/listar/filtrar", method = RequestMethod.POST)
     public ModelAndView filterPageAnuncios(@Valid AnuncioFilterForm anuncioFilterForm){
     	
@@ -159,6 +160,8 @@ public class UserAnuncioController {
     	
     	if(vendedor.equals(comprador)){
     		
+    		System.out.println("sou o mesmo " + idAnuncio);
+    		
     		return new ModelAndView("redirect:/user/listar/anuncios");
     	}
     	
@@ -176,40 +179,11 @@ public class UserAnuncioController {
     	return new ModelAndView("redirect:/user/listar/anuncios");
     }
     
-    @RequestMapping(value = "/oi", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/listar/comprar/anuncio/servico", method = RequestMethod.POST)
     public ModelAndView comprarAnuncioServico(RedirectAttributes attributes,
     		@RequestParam(value = "idAnuncio") long idAnuncio, @RequestParam(value ="data") Date data){
     	
-    	System.out.println("oi");
-    	System.out.println(data.toString());
-    	
-    	Anuncio anuncio = anuncioService.getById(idAnuncio).get();
-    	
-    	Usuario vendedor = anuncio.getAnunciante();
-    	    	
-    	Usuario comprador = usuarioService.getLoggedUser();
-    	
-    	double valorAnuncio = anuncio.getPreco();
-    	
-    	if(vendedor.equals(comprador)){
-    		
-    		return new ModelAndView("redirect:/user/listar/anuncios");
-    	}
-    	
-    	if (anuncio.getTipo().equals("emprego")) {
-			vendedor.debitar(valorAnuncio);
-			comprador.creditar(valorAnuncio);
-		}
-    	else{
-			comprador.debitar(valorAnuncio);
-			vendedor.creditar(valorAnuncio);
-    	}
-    	
-		anuncioService.delete(idAnuncio);
-		
-		//criar serviço
- 
-    	return new ModelAndView("redirect:/user/listar/anuncios");
+    	return this.comprarAnuncio(attributes, idAnuncio);
     	
     }
 
