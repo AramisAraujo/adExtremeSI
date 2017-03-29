@@ -23,4 +23,5 @@ public interface UsuarioService {
     public Usuario getLoggedUser();
     
     public boolean userIsLogged();
+    
 }

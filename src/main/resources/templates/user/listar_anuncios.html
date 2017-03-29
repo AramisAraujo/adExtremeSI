@@ -57,30 +57,7 @@
                         <th>Ação</th>
                     </tr>
 
-                    <th:block th:each="item : ${anuncios}">
-                    <div id="modalServicoData" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Quando deseja contratar o serviço ?</h4>
-                        </div>
-                        <form th:th:action="@{/oi}" method="post" id="servicoForm">
-                            <div align="center">
-                                <h1>Data de contrato: </h1>
-                                <input type="hidden" th:value="${item.id}" name="idAnuncio"/>
-                                <input align="center" type="datetime-local" name="data" required="true"/>
-                            </div>
-                        </form>
-
-                        <div class="modal-footer">
-                            <button type="submit" form="servicoForm" value="Submit" class="btn btn-success" >Comprar</button>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
+                    <th:block th:each="item : ${anuncios}" >
                         <tr>
                             <td align="center" th:text="${item.titulo}"></td>
                             <td align="center" th:text="${#strings.toUpperCase(item.tipo.getName())}"> - </td>
@@ -102,8 +79,33 @@
                                 </form>
                             </td>
                             <td th:if="${item.tipo.getName() == 'Serviço'}">
-                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalServicoData">Open Modal</button>
+                                <button type="button" class="btn btn-success" data-toggle="modal" th:attr="data-target=${#strings.concat('#modal',item.id)}">Comprar</button>
                             </td>
+                        
+                        <div th:attr="id=${#strings.concat('modal',item.id)}" class="modal fade" role="dialog">
+                        <div class="modal-dialog" >
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Quando deseja contratar o serviço ?</h4>
+                        </div>
+                        <form th:action="@{comprar/anuncio/servico}" th:attr="id=${#strings.concat('servicoForm',item.id)}" method="post">
+                            <div align="center">
+                                <h1>Data de contrato: </h1>
+                                <input type="hidden" th:value="${item.id}" name="idAnuncio"/>
+                                <input align="center" type="datetime-local" name="data" required="true"/>
+                            </div>
+                        </form>
+
+                        <div class="modal-footer">
+                            <button type="submit" th:attr="form=${#strings.concat('servicoForm',item.id)}" value="Submit" class="btn btn-success" >Comprar</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    
                         </tr>
                     </th:block>
                 </table>
