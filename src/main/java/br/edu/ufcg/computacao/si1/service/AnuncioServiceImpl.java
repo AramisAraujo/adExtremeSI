@@ -59,10 +59,14 @@ public class AnuncioServiceImpl implements AnuncioService {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
     
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public Collection<Anuncio> getByDateBetween(Date fromDate, Date untilDate) {
     	/*pegamos aqui todos os anuncios, mas retornamos os anuncios por data
     	 * filtrando a data de criacao, pelo equals, retornando um arrayList*/
+    	
+    	untilDate.setHours(23);
+    	untilDate.setMinutes(59);
 
         LOGGER.debug("Retornando anúncios entre " + fromDate + " e " + untilDate);
     	

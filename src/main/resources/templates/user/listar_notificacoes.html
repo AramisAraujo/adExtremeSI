@@ -1,0 +1,44 @@
+    <!DOCTYPE html>
+    <html
+            xmlns:th="http://www.thymeleaf.org"
+            xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+            layout:decorator="layout/layout_user">
+    <head>
+        <title>.:: ad-extreme ::. - user</title>
+    </head>
+    <th:block layout:fragment="conteudo">
+        <div class="col-md-offset-2 col-md-8">
+            <h1>Notificações</h1>
+            <!-- Text input-->
+            <div>
+              
+            </div>
+            <div th:if="${notificacoes.isEmpty()}">
+                <h4>Nenhuma notificação listada</h4>
+            </div>
+
+            <div th:if="${notificacoes != null}" class="table-responsive">
+                <table style="width:100%" class="table table-bordered">
+                    <tr>
+                        <th>Data</th>
+                        <th>Mensagem</th>
+                        <th>Ação</th>
+                    </tr>
+
+                    <th:block th:each="item : ${notificacoes}" >
+                        <tr>
+                            <td align="center" th:text="${item.getDataCriacao()}"></td>
+                            <td align="center" th:text="${item.getMensagem()}"></td>
+                            <td>
+                                <form th:action="@{/user/listar/notificacoes/excluir}" method="post">
+                                    <input type="hidden" name="id" th:value="${item.id}"> </input>
+                                    <button align="center" type="submit" class="btn btn-danger">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </th:block>
+                </table>
+            </div>
+        </div>
+    </th:block>
+    </html>
