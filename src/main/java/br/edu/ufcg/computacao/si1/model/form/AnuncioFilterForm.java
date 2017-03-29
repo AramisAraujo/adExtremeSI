@@ -27,7 +27,6 @@ public class AnuncioFilterForm {
 	private Date toDate;
 	
 	@NotNull
-    @NotEmpty
     @Enumerated(EnumType.STRING)
 	private TipoAnuncio type;
 	 

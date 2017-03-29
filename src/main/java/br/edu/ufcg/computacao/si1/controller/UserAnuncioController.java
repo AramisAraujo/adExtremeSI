@@ -54,10 +54,10 @@ public class UserAnuncioController {
         Usuario loggedUser = usuarioService.getLoggedUser();
         
         if(loggedUser.getRole().equals(RazaoSocial.COMPANY)){
-        	model.addObject("tiposAnuncio", anuncioForm.permCompany);
+        	model.addObject("tiposAnuncio", anuncioForm.PERM_COMPANY);
         }
         else if(loggedUser.getRole().equals(RazaoSocial.USER)){
-        	model.addObject("tiposAnuncio", anuncioForm.permUser);
+        	model.addObject("tiposAnuncio", anuncioForm.PERM_USER);
         }
         
         model.addObject("usuario", loggedUser);
@@ -69,7 +69,8 @@ public class UserAnuncioController {
     @RequestMapping(value = {"/user/listar/anuncios","/user/listar/resetFilter"}, method = RequestMethod.GET)
     public ModelAndView getPageListarAnuncios(){
         ModelAndView model = new ModelAndView();
-
+        
+        model.addObject("tiposAnuncio", AnuncioForm.ALL);
         model.addObject("anuncios", anuncioRep.findAll());
         model.addObject("usuario", usuarioService.getLoggedUser());
        
@@ -173,6 +174,43 @@ public class UserAnuncioController {
 		anuncioService.delete(idAnuncio);
  
     	return new ModelAndView("redirect:/user/listar/anuncios");
+    }
+    
+    @RequestMapping(value = "/oi", method = RequestMethod.POST)
+    public ModelAndView comprarAnuncioServico(RedirectAttributes attributes,
+    		@RequestParam(value = "idAnuncio") long idAnuncio, @RequestParam(value ="data") Date data){
+    	
+    	System.out.println("oi");
+    	System.out.println(data.toString());
+    	
+    	Anuncio anuncio = anuncioService.getById(idAnuncio).get();
+    	
+    	Usuario vendedor = anuncio.getAnunciante();
+    	    	
+    	Usuario comprador = usuarioService.getLoggedUser();
+    	
+    	double valorAnuncio = anuncio.getPreco();
+    	
+    	if(vendedor.equals(comprador)){
+    		
+    		return new ModelAndView("redirect:/user/listar/anuncios");
+    	}
+    	
+    	if (anuncio.getTipo().equals("emprego")) {
+			vendedor.debitar(valorAnuncio);
+			comprador.creditar(valorAnuncio);
+		}
+    	else{
+			comprador.debitar(valorAnuncio);
+			vendedor.creditar(valorAnuncio);
+    	}
+    	
+		anuncioService.delete(idAnuncio);
+		
+		//criar serviço
+ 
+    	return new ModelAndView("redirect:/user/listar/anuncios");
+    	
     }
 
 }

@@ -13,8 +13,10 @@ import javax.validation.constraints.Size;
 
 public class AnuncioForm {
 
-    public static final TipoAnuncio[] permUser = new TipoAnuncio[] {TipoAnuncio.MOVEL, TipoAnuncio.IMOVEL};
-    public static final TipoAnuncio[] permCompany = new TipoAnuncio[] {TipoAnuncio.MOVEL, TipoAnuncio.IMOVEL,
+	public static final TipoAnuncio[] ALL = new TipoAnuncio[] {TipoAnuncio.TODOS, TipoAnuncio.MOVEL, 
+			TipoAnuncio.IMOVEL, TipoAnuncio.EMPREGO,TipoAnuncio.SERVICO};
+    public static final TipoAnuncio[] PERM_USER = new TipoAnuncio[] {TipoAnuncio.MOVEL, TipoAnuncio.IMOVEL};
+    public static final TipoAnuncio[] PERM_COMPANY = new TipoAnuncio[] {TipoAnuncio.MOVEL, TipoAnuncio.IMOVEL,
     		TipoAnuncio.EMPREGO,TipoAnuncio.SERVICO}; 
 
     @NotNull(message = "O titulo não pode ser nulo.")

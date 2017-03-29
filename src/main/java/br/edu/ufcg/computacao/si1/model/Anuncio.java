@@ -36,7 +36,7 @@ public class Anuncio {
     @Enumerated(EnumType.STRING)
     private TipoAnuncio tipo;
     
-    @ManyToOne
+    @ManyToOne()
     private Usuario anunciante;
    
     public Anuncio(String titulo, Date dataDeCriacao, double preco, Notas nota, TipoAnuncio tipo, Usuario anunciante) {
