@@ -28,13 +28,12 @@
 	            	</div>
 	            	<div class="form-group">
             			<label class="col-md-4 control-label" >Tipo de anúncio:</label>
-	                    <select name="type" form="filterForm">
-	  						<option value="todos">Todos</option>
-							<option value="movel">Móveis</option>
-							<option value="imovel">Imóveis</option>
-							<option value="emprego">Empregos</option>
-							<option value="servico">Serviços</option>
-						</select>
+                        <th:block th:object="${anuncioForm}">
+                            <label for="radios-0" th:each="tipoAnuncio : ${tiposAnuncio}">
+                                <input type="radio" name="type" id="radios-0" th:value="${tipoAnuncio}" required="true" />
+                                <p th:text="${tipoAnuncio.getName()}"></p>
+                            </label>
+                         </th:block>
 	            	</div>
 	                    <button type="submit" class="btn btn-info">Filtrar</button>
 	                    	</table>
@@ -47,27 +46,63 @@
             <div th:if="${anuncios.isEmpty()}">
                 <h4>Nenhum Anúncio listado</h4>
             </div>
+
             <div th:if="${anuncios != null}" class="table-responsive">
                 <table style="width:100%" class="table table-bordered">
                     <tr>
                         <th>Titulo</th>
                         <th>Tipo</th>
                         <th>Postado</th>
-                        <th align="right">Preço</th>
+                        <th>Preço</th>
                         <th>Ação</th>
                     </tr>
 
                     <th:block th:each="item : ${anuncios}">
+                    <div id="modalServicoData" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Quando deseja contratar o serviço ?</h4>
+                        </div>
+                        <form th:th:action="@{/oi}" method="post" id="servicoForm">
+                            <div align="center">
+                                <h1>Data de contrato: </h1>
+                                <input type="hidden" th:value="${item.id}" name="idAnuncio"/>
+                                <input align="center" type="datetime-local" name="data" required="true"/>
+                            </div>
+                        </form>
+
+                        <div class="modal-footer">
+                            <button type="submit" form="servicoForm" value="Submit" class="btn btn-success" >Comprar</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
                         <tr>
                             <td align="center" th:text="${item.titulo}"></td>
-                            <td align="center" th:text="${#strings.toUpperCase(item.tipo)}"> - </td>
+                            <td align="center" th:text="${#strings.toUpperCase(item.tipo.getName())}"> - </td>
                             <td align="center" th:text="${item.dataDeCriacao}"> - </td>
                             <td align="center" th:text="${'R$ ' + #numbers.formatDecimal(item.preco, 0, 'COMMA', 2, 'POINT')}">0.00</td>
-                            <td>
+                            <td th:if="${item.tipo.getName() != 'Serviço'}">
                                 <form th:action="@{comprar/anuncio}" method="post">
-                                    <input type="hidden" th:value="${item.id}" name="idAnuncio"/>
-                                    <button type="submit" class="btn btn-success">Comprar</button>
+                                    <div th:if="${item.anunciante != usuario}">
+                                        <input type="hidden" th:value="${item.id}" name="idAnuncio"/>
+                                        <button th:if="${item.tipo.getName() != 'Emprego' and item.tipo.getName() != 'Serviço'}" type="submit" class="btn btn-success">Comprar</button>
+                                        <button th:if="${item.tipo.getName() == 'Emprego'}" type="submit" class="btn btn-success">Aderir</button>
+                                    </div>
                                 </form>
+                                <form th:th:action="@{avaliar/anuncio}" method="post">
+                                    <div th:if="${item.anunciante != usuario}">
+                                        <input type="hidden" th:value="${item.id}" name="idAnuncio"/>
+                                        <button type="submit" class="btn btn-warning">Avaliar</button>
+                                    </div>
+                                </form>
+                            </td>
+                            <td th:if="${item.tipo.getName() == 'Serviço'}">
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalServicoData">Open Modal</button>
                             </td>
                         </tr>
                     </th:block>

@@ -2,6 +2,11 @@ package br.edu.ufcg.computacao.si1.model.form;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import br.edu.ufcg.computacao.si1.model.RazaoSocial;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -18,7 +23,8 @@ public class UsuarioForm {
     @Size(min = 4, max = 16, message = "A senha deve ter entre 4 e 16 caracteres.")
     private String senha;
     @NotNull
-    private Integer role;
+    @Enumerated(EnumType.STRING)
+    private RazaoSocial role;
 
     public String getNome() {
         return nome;
@@ -44,11 +50,11 @@ public class UsuarioForm {
         this.senha = senha;
     }
 
-    public Integer getRole() {
+    public RazaoSocial getRole() {
         return role;
     }
 
-    public void setRole(Integer role) {
+    public void setRole(RazaoSocial role) {
         this.role = role;
     }
 }

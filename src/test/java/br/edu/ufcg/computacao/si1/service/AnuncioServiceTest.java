@@ -3,6 +3,7 @@ package br.edu.ufcg.computacao.si1.service;
 import br.edu.ufcg.computacao.si1.model.Anuncio;
 import br.edu.ufcg.computacao.si1.model.Notas;
 import br.edu.ufcg.computacao.si1.model.RazaoSocial;
+import br.edu.ufcg.computacao.si1.model.TipoAnuncio;
 import br.edu.ufcg.computacao.si1.model.Usuario;
 import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
 import org.junit.After;
@@ -38,9 +39,9 @@ public class AnuncioServiceTest {
     @Before
     public void setUp() {
         anunciante = new Usuario("Gabriel", "gabrielmaracaj@gmail.com", "gabriel", RazaoSocial.USER);
-        anuncio1 = new Anuncio("Anuncio de Movel", new Date(), 100, Notas.ESTRELA2, "movel", anunciante);
-        anuncio2 = new Anuncio("Anuncio de Imovel", new Date(), 100000, Notas.ESTRELA3, "imovel", anunciante);
-        anuncio3 = new Anuncio("Anuncio de Emprego", new Date(), 0, Notas.ESTRELA1, "emprego", anunciante);
+        anuncio1 = new Anuncio("Anuncio de Movel", new Date(), 100, Notas.ESTRELA2, TipoAnuncio.MOVEL, anunciante);
+        anuncio2 = new Anuncio("Anuncio de Imovel", new Date(), 100000, Notas.ESTRELA3, TipoAnuncio.IMOVEL, anunciante);
+        anuncio3 = new Anuncio("Anuncio de Emprego", new Date(), 0, Notas.ESTRELA1, TipoAnuncio.EMPREGO, anunciante);
     }
 
     @After
@@ -95,13 +96,13 @@ public class AnuncioServiceTest {
         assertEquals(anuncioImovel.getTipo(), "imovel");
         assertEquals(anuncioEmprego.getTipo(), "emprego");
 
-        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getByType("movel").size());
-        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getByType("imovel").size());
-        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getByType("emprego").size());
+        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getByType(TipoAnuncio.MOVEL).size());
+        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getByType(TipoAnuncio.IMOVEL).size());
+        assertEquals(QTDE_ANUNCIOS_ESPERADA, anuncioService.getByType(TipoAnuncio.EMPREGO).size());
 
-        assertTrue(anuncioService.getByType("movel").contains(anuncioMovel));
-        assertTrue(anuncioService.getByType("imovel").contains(anuncioImovel));
-        assertTrue(anuncioService.getByType("emprego").contains(anuncioEmprego));
+        assertTrue(anuncioService.getByType(TipoAnuncio.MOVEL).contains(anuncioMovel));
+        assertTrue(anuncioService.getByType(TipoAnuncio.IMOVEL).contains(anuncioImovel));
+        assertTrue(anuncioService.getByType(TipoAnuncio.EMPREGO).contains(anuncioEmprego));
     }
 
     @Test

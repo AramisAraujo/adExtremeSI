@@ -52,20 +52,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         boolean isAdmin = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-        for (GrantedAuthority grantedAuthority : authorities) {
+       for (GrantedAuthority grantedAuthority : authorities) {
         	
             if (grantedAuthority.getAuthority().equals(RazaoSocial.USER.toString())) {
                 isUser = true;
                 break;
             } else if (grantedAuthority.getAuthority().equals(RazaoSocial.COMPANY.toString())) {
-                isAdmin = true;
+                isUser = true;
             }
         }
 
         if (isUser) {
             return "/user";
-        } else if (isAdmin) {
-            return "/company";
         } else {
             throw new IllegalStateException();
         }

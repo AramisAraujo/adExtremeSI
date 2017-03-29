@@ -1,6 +1,7 @@
 package br.edu.ufcg.computacao.si1.service;
 
 import br.edu.ufcg.computacao.si1.model.Anuncio;
+import br.edu.ufcg.computacao.si1.model.TipoAnuncio;
 import br.edu.ufcg.computacao.si1.repository.AnuncioRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,12 +50,12 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
-    public Collection<Anuncio> getByType(String tipo) {
+    public Collection<Anuncio> getByType(TipoAnuncio tipo) {
         LOGGER.debug("Retornando anúncios com o tipo " + tipo);
         /*pegamos aqui todos os anuncios, mas retornamos os anuncios por tipo
         * filtrando o tipo, pelo equals, retornando um arrayList*/
         return anuncioRepository.findAll().stream()
-                .filter(anuncio -> anuncio.getTipo().equalsIgnoreCase(tipo))
+                .filter(anuncio -> anuncio.getTipo().equals(tipo))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
     

@@ -31,19 +31,20 @@ public class UsuarioServiceImpl implements UsuarioService{
 
         Usuario usuario=null;
 
-        switch (usuarioForm.getRole()){
-            case 1:
+            if(usuarioForm.getRole().equals(RazaoSocial.USER)){
+            	
                 usuario = new Usuario(usuarioForm.getNome(), usuarioForm.getEmail(),
-                        usuarioForm.getSenha(), RazaoSocial.USER);
-                break;
-            case 2:
+                usuarioForm.getSenha(), RazaoSocial.USER);
+            }
+
+            else if(usuarioForm.getRole().equals(RazaoSocial.COMPANY)){
+            	
                 usuario = new Usuario(usuarioForm.getNome(), usuarioForm.getEmail(),
-                        usuarioForm.getSenha(), RazaoSocial.COMPANY);
+                usuarioForm.getSenha(), RazaoSocial.COMPANY);
+            }
 
                 //new BCryptPasswordEncoder().encode(usuarioForm.getSenha()), "COMPANY");
-                usuario.setRole(RazaoSocial.COMPANY);
-                break;
-        }
+
         LOGGER.debug("Usuário novo está sendo criado");
         return usuarioRepository.save(usuario);
     }

@@ -33,8 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         http
             .authorizeRequests()
                     .antMatchers("/","/cadastrar-se").permitAll()
-                    .antMatchers("/user/**").hasAuthority(RazaoSocial.USER.toString())
-                    .antMatchers("/company/**").hasAuthority(RazaoSocial.COMPANY.toString())
+                    .antMatchers("/user/**").hasAnyAuthority(RazaoSocial.USER.toString(), RazaoSocial.COMPANY.toString())
                     .anyRequest().fullyAuthenticated()
                 .and()
             .formLogin()

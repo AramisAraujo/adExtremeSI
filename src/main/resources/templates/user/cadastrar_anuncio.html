@@ -47,11 +47,11 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Tipo</label>
                         <div class="col-md-4">
-                            <div class="radio" th:if="${anuncioForm.tiposUsuario != null}">
+                            <div class="radio" th:if="${tiposAnuncio != null}">
                                 <th:block th:object="${anuncioForm}">
-                                    <label for="radios-0" th:each="tipo : *{tiposUsuario}">
-                                        <input type="radio" name="tipo" id="radios-0" th:value="${tipo}"/>
-                                        <p th:text="${tipo}"></p>
+                                    <label for="radios-0" th:each="tipoAnuncio : ${tiposAnuncio}">
+                                        <input type="radio" name="tipo" id="radios-0" th:value="${tipoAnuncio}"/>
+                                        <p th:text="${tipoAnuncio.getName()}"></p>
                                     </label>
                                 </th:block>
                             </div>
